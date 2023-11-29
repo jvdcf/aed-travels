@@ -1,0 +1,54 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# CLion IDE
+cmake-build-debug/
+.idea/
+
+# Doxygen
+Doxyfile
+!docs/Doxyfile
+docs/output
+
+# Local CMake to Makefile workflow
+AED2324_PRJ2_G23
+cmake_install.cmake
+CMakeCache.txt
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake
+Makefile
+CMakeFiles/
+bin/
+1
+run.sh
+
