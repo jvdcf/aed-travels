@@ -40,7 +40,7 @@ Doxyfile
 !docs/Doxyfile
 docs/output
 
-# Local CMake to Makefile workflow
+# Manual CMake to Makefile workflow
 AED2324_PRJ2_G23
 cmake_install.cmake
 CMakeCache.txt
@@ -50,5 +50,4 @@ Makefile
 CMakeFiles/
 bin/
 1
-run.sh
 
