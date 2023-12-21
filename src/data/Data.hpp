@@ -10,9 +10,9 @@
 
 class Data {
 private:
-    Graph<Airport, Airline> flights;
-    std::unordered_map<uint16_t, Vertex<Airport, Airline>*> searchAirportByCode;
-    std::unordered_map<std::string, Vertex<Airport, Airline>*> searchAirportByName;
+    Graph<Airport, Airline*> flights;
+    std::unordered_map<uint16_t, Vertex<Airport, Airline*>*> searchAirportByCode;
+    std::unordered_map<std::string, Vertex<Airport, Airline*>*> searchAirportByName;
     std::unordered_map<uint16_t, Airline> searchAirlines;
 
 public:
