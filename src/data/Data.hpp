@@ -1,8 +1,7 @@
 #ifndef AED2324_PRJ2_G23_DATA_HPP
 #define AED2324_PRJ2_G23_DATA_HPP
 
-
-#include <unordered_set>
+#include <string>
 #include <unordered_map>
 #include "Airport.hpp"
 #include "Airline.hpp"
@@ -11,7 +10,8 @@
 class Data {
 private:
     Graph<Airport> flights;
-    std::unordered_map<uint16_t, Vertex<Airport>*> tabVertex;
+    std::unordered_map<uint16_t, Vertex<Airport>*> searchAirportByCode;
+    std::unordered_map<std::string, Vertex<Airport>*> searchAirportByName;
     std::unordered_map<uint16_t, Airline> tabAirlines;
 
 public:
