@@ -2,9 +2,12 @@
 #include "Airline.hpp"
 #include "Airport.hpp"
 #include <cstdint>
+#include <string>
 
 Data::Data() {
-    // TODO
+    this->searchAirportByCode = unordered_map<uint16_t, Vertex<Airport,Airline*>*>();
+    this->searchAirportByName = unordered_map<std::string, Vertex<Airport,Airline*>*>();
+    this->searchAirlines = unordered_map<uint16_t, Airline>();
 }
 
 void Data::loadAirport(Airport &airport) {
@@ -18,12 +21,11 @@ void Data::loadAirline(Airline &airline) {
 }
 
 void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline_code) {
-    Vertex<Airport,Airline>* src = searchAirportByCode[source_code];
-    Vertex<Airport,Airline>* dst = searchAirportByCode[dest_code];
-    Airline air = searchAirlines[airline_code];
-    // TODO: distance
-    float distance = 0;
+    Vertex<Airport,Airline*>* src = searchAirportByCode[source_code];
+    Vertex<Airport,Airline*>* dst = searchAirportByCode[dest_code];
+    Airline* air = &searchAirlines[airline_code];
+    float distance = src->getInfo().disToOther(dst->getInfo());
     auto tmp = src->getAdj();
-    tmp.push_back(Edge<Airport,Airline>(dst, distance, air));
+    tmp.push_back(Edge<Airport,Airline*>(dst, distance, air));
     src->setAdj(tmp);
 }
