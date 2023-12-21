@@ -54,8 +54,7 @@ void Parser::parseFlights(Data &data, const std::string& csv) {
     std::fstream s(csv);
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
-        Airline entry = Airline(csv_fields[0], csv_fields[1], csv_fields[2], csv_fields[3]);
         line.clear();
-        //data.loadFlight();
+        data.loadFlight(Airport::codeToHash(csv_fields[0]), Airport::codeToHash(csv_fields[1]), Airline::codeToHash(csv_fields[2]));
     }
 }
