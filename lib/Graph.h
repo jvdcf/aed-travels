@@ -12,25 +12,25 @@
 
 using namespace std;
 
-template <class T> class Edge;
-template <class T> class Graph;
-template <class T> class Vertex;
+template <class T, class U> class Edge;
+template <class T, class U> class Graph;
+template <class T, class U> class Vertex;
 
 
 /****************** Provided structures  ********************/
 
-template <class T>
+template <class T, class U>
 class Vertex {
     T info;                // contents
-    vector<Edge<T> > adj;  // list of outgoing edges
+    vector<Edge<T,U>> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
     bool processing;       // auxiliary field
     int indegree;          // auxiliary field
     int num;               // auxiliary field
     int low;               // auxiliary field
 
-    void addEdge(Vertex<T> *dest, double w);
-    bool removeEdgeTo(Vertex<T> *d);
+    void addEdge(Vertex<T,U> *dest, double w);
+    bool removeEdgeTo(Vertex<T,U> *d);
 public:
     Vertex(T in);
     T getInfo() const;
@@ -39,8 +39,8 @@ public:
     void setVisited(bool v);
     bool isProcessing() const;
     void setProcessing(bool p);
-    const vector<Edge<T>> &getAdj() const;
-    void setAdj(const vector<Edge<T>> &edges);
+    const vector<Edge<T,U>> &getAdj() const;
+    void setAdj(const vector<Edge<T,U>> &edges);
 
     int getIndegree() const;
 
@@ -54,40 +54,43 @@ public:
 
     void setLow(int low);
 
-    friend class Graph<T>;
+    friend class Graph<T,U>;
 };
 
-template <class T>
+template <class T,class U>
 class Edge {
-    Vertex<T> * dest;      // destination vertex
+    Vertex<T,U> * dest;      // destination vertex
     double weight;         // edge weight
+    U info;
 public:
-    Edge(Vertex<T> *d, double w);
-    Vertex<T> *getDest() const;
-    void setDest(Vertex<T> *dest);
+    Edge(Vertex<T,U> *d, double w, U i);
+    Vertex<T,U> *getDest() const;
+    void setDest(Vertex<T,U> *dest);
     double getWeight() const;
     void setWeight(double weight);
-    friend class Graph<T>;
-    friend class Vertex<T>;
+    U getInfo() const;
+    void setInfo(U info);
+    friend class Graph<T,U>;
+    friend class Vertex<T,U>;
 };
 
-template <class T>
+template <class T, class U>
 class Graph {
-    vector<Vertex<T> *> vertexSet;      // vertex set
+    vector<Vertex<T,U> *> vertexSet;      // vertex set
     int _index_;                        // auxiliary field
-    stack<Vertex<T>> _stack_;           // auxiliary field
+    stack<Vertex<T,U>> _stack_;           // auxiliary field
     list<list<T>> _list_sccs_;        // auxiliary field
 
-    void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
-    bool dfsIsDAG(Vertex<T> *v) const;
+    void dfsVisit(Vertex<T,U> *v,  vector<T> & res) const;
+    bool dfsIsDAG(Vertex<T,U> *v) const;
 public:
-    Vertex<T> *findVertex(const T &in) const;
+    Vertex<T,U> *findVertex(const T &in) const;
     int getNumVertex() const;
     bool addVertex(const T &in);
     bool removeVertex(const T &in);
     bool addEdge(const T &sourc, const T &dest, double w);
     bool removeEdge(const T &sourc, const T &dest);
-    vector<Vertex<T> * > getVertexSet() const;
+    vector<Vertex<T,U> * > getVertexSet() const;
     vector<T> dfs() const;
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
@@ -97,121 +100,130 @@ public:
 
 /****************** Provided constructors and functions ********************/
 
-template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+template <class T,class U>
+Vertex<T,U>::Vertex(T in): info(in) {}
 
-template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
+template <class T, class U>
+Edge<T,U>::Edge(Vertex<T,U> *d, double w, U i): dest(d), weight(w), info(i) {}
 
 
-template <class T>
-int Graph<T>::getNumVertex() const {
+template <class T, class U>
+int Graph<T,U>::getNumVertex() const {
     return vertexSet.size();
 }
 
-template <class T>
-vector<Vertex<T> * > Graph<T>::getVertexSet() const {
+template <class T, class U>
+vector<Vertex<T,U>*> Graph<T,U>::getVertexSet() const {
     return vertexSet;
 }
 
-template<class T>
-T Vertex<T>::getInfo() const {
+template<class T, class U>
+T Vertex<T,U>::getInfo() const {
     return info;
 }
 
-template<class T>
-void Vertex<T>::setInfo(T in) {
+template<class T,class U>
+void Vertex<T,U>::setInfo(T in) {
     Vertex::info = in;
 }
 
-template<class T>
-bool Vertex<T>::isProcessing() const {
+template<class T,class U>
+bool Vertex<T,U>::isProcessing() const {
     return processing;
 }
 
-template<class T>
-void Vertex<T>::setProcessing(bool p) {
+template<class T,class U>
+void Vertex<T,U>::setProcessing(bool p) {
     Vertex::processing = p;
 }
 
-template<class T>
-Vertex<T> *Edge<T>::getDest() const {
+template<class T, class U>
+Vertex<T,U> *Edge<T,U>::getDest() const {
     return dest;
 }
 
-template<class T>
-void Edge<T>::setDest(Vertex<T> *d) {
+template<class T, class U>
+void Edge<T,U>::setDest(Vertex<T,U> *d) {
     Edge::dest = d;
 }
 
-template<class T>
-double Edge<T>::getWeight() const {
+template<class T, class U>
+double Edge<T,U>::getWeight() const {
     return weight;
 }
 
-template<class T>
-void Edge<T>::setWeight(double w) {
+template<class T, class U>
+void Edge<T,U>::setWeight(double w) {
     Edge::weight = w;
+}
+
+template<class T, class U>
+U Edge<T,U>::getInfo() const {
+    return info;
+}
+template<class T, class U>
+void Edge<T,U>::setInfo(U info) {
+    this->info = info;
 }
 
 /*
  * Auxiliary function to find a vertex with a given content.
  */
-template <class T>
-Vertex<T> * Graph<T>::findVertex(const T &in) const {
+template <class T, class U>
+Vertex<T,U> * Graph<T,U>::findVertex(const T &in) const {
     for (auto v : vertexSet)
         if (v->info == in)
             return v;
     return NULL;
 }
 
-template <class T>
-bool Vertex<T>::isVisited() const {
+template <class T, class U>
+bool Vertex<T,U>::isVisited() const {
     return visited;
 }
 
-template<class T>
-int Vertex<T>::getIndegree() const {
+template<class T, class U>
+int Vertex<T,U>::getIndegree() const {
     return indegree;
 }
 
-template<class T>
-void Vertex<T>::setIndegree(int i) {
+template<class T, class U>
+void Vertex<T,U>::setIndegree(int i) {
     Vertex::indegree = i;
 }
 
-template<class T>
-int Vertex<T>::getNum() const {
+template<class T, class U>
+int Vertex<T,U>::getNum() const {
     return num;
 }
 
-template<class T>
-void Vertex<T>::setNum(int n) {
+template<class T, class U>
+void Vertex<T,U>::setNum(int n) {
     Vertex::num = n;
 }
 
-template<class T>
-int Vertex<T>::getLow() const {
+template<class T, class U>
+int Vertex<T,U>::getLow() const {
     return low;
 }
 
-template<class T>
-void Vertex<T>::setLow(int l) {
+template<class T, class U>
+void Vertex<T,U>::setLow(int l) {
     Vertex::low = l;
 }
 
-template <class T>
-void Vertex<T>::setVisited(bool v) {
+template <class T, class U>
+void Vertex<T,U>::setVisited(bool v) {
     Vertex::visited = v;
 }
 
-template<class T>
-const vector<Edge<T>> &Vertex<T>::getAdj() const {
+template<class T, class U>
+const vector<Edge<T,U>> &Vertex<T,U>::getAdj() const {
     return adj;
 }
 
-template <class T>
-void Vertex<T>::setAdj(const vector<Edge<T>> &edges) {
+template <class T, class U>
+void Vertex<T,U>::setAdj(const vector<Edge<T,U>> &edges) {
     Vertex::adj = edges;
 }
 
@@ -220,11 +232,11 @@ void Vertex<T>::setAdj(const vector<Edge<T>> &edges) {
  *  Adds a vertex with a given content or info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
-template <class T>
-bool Graph<T>::addVertex(const T &in) {
+template <class T, class U>
+bool Graph<T,U>::addVertex(const T &in) {
     if ( findVertex(in) != NULL)
         return false;
-    vertexSet.push_back(new Vertex<T>(in));
+    vertexSet.push_back(new Vertex<T,U>(in));
     return true;
 }
 
@@ -234,8 +246,8 @@ bool Graph<T>::addVertex(const T &in) {
  * destination vertices and the edge weight (w).
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
-template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
+template <class T, class U>
+bool Graph<T,U>::addEdge(const T &sourc, const T &dest, double w) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
@@ -248,9 +260,9 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
  */
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, double w) {
-    adj.push_back(Edge<T>(d, w));
+template <class T, class U>
+void Vertex<T,U>::addEdge(Vertex<T,U> *d, double w) {
+    adj.push_back(Edge<T,U>(d, w));
 }
 
 
@@ -259,8 +271,8 @@ void Vertex<T>::addEdge(Vertex<T> *d, double w) {
  * The edge is identified by the source (sourc) and destination (dest) contents.
  * Returns true if successful, and false if such edge does not exist.
  */
-template <class T>
-bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
+template <class T, class U>
+bool Graph<T,U>::removeEdge(const T &sourc, const T &dest) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
@@ -273,8 +285,8 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
  * from a vertex (this).
  * Returns true if successful, and false if such edge does not exist.
  */
-template <class T>
-bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
+template <class T, class U>
+bool Vertex<T,U>::removeEdgeTo(Vertex<T,U> *d) {
     for (auto it = adj.begin(); it != adj.end(); it++)
         if (it->dest  == d) {
             adj.erase(it);
@@ -288,8 +300,8 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
  *  all outgoing and incoming edges.
  *  Returns true if successful, and false if such vertex does not exist.
  */
-template <class T>
-bool Graph<T>::removeVertex(const T &in) {
+template <class T, class U>
+bool Graph<T,U>::removeVertex(const T &in) {
     for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
         if ((*it)->info  == in) {
             auto v = *it;
@@ -309,8 +321,8 @@ bool Graph<T>::removeVertex(const T &in) {
  * Returns a vector with the contents of the vertices by dfs order.
  * Follows the algorithm described in theoretical classes.
  */
-template <class T>
-vector<T> Graph<T>::dfs() const {
+template <class T, class U>
+vector<T> Graph<T,U>::dfs() const {
     vector<T> res;
     for (auto v : vertexSet)
         v->visited = false;
@@ -324,8 +336,8 @@ vector<T> Graph<T>::dfs() const {
  * Auxiliary function that visits a vertex (v) and its adjacent, recursively.
  * Updates a parameter with the list of visited node contents.
  */
-template <class T>
-void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
+template <class T, class U>
+void Graph<T,U>::dfsVisit(Vertex<T,U> *v, vector<T> & res) const {
     v->visited = true;
     res.push_back(v->info);
     for (auto & e : v->adj) {
@@ -342,8 +354,8 @@ void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
  * Returns a vector with the contents of the vertices by dfs order,
  * from the source node.
  */
-template <class T>
-vector<T> Graph<T>::dfs(const T & source) const {
+template <class T, class U>
+vector<T> Graph<T,U>::dfs(const T & source) const {
     vector<T> res;
     auto s = findVertex(source);
     if (s == nullptr)
@@ -363,13 +375,13 @@ vector<T> Graph<T>::dfs(const T & source) const {
  * from the vertex with the given source contents (source).
  * Returns a vector with the contents of the vertices by bfs order.
  */
-template <class T>
-vector<T> Graph<T>::bfs(const T & source) const {
+template <class T, class U>
+vector<T> Graph<T,U>::bfs(const T & source) const {
     vector<T> res;
     auto s = findVertex(source);
     if (s == NULL)
         return res;
-    queue<Vertex<T> *> q;
+    queue<Vertex<T,U> *> q;
     for (auto v : vertexSet)
         v->visited = false;
     q.push(s);
@@ -399,8 +411,8 @@ vector<T> Graph<T>::bfs(const T & source) const {
  * Returns true if the graph is acyclic, and false otherwise.
  */
 
-template <class T>
-bool Graph<T>::isDAG() const {
+template <class T, class U>
+bool Graph<T,U>::isDAG() const {
     for (auto v : vertexSet) {
         v->visited = false;
         v->processing = false;
@@ -416,8 +428,8 @@ bool Graph<T>::isDAG() const {
  * Auxiliary function that visits a vertex (v) and its adjacent, recursively.
  * Returns false (not acyclic) if an edge to a vertex in the stack is found.
  */
-template <class T>
-bool Graph<T>::dfsIsDAG(Vertex<T> *v) const {
+template <class T, class U>
+bool Graph<T,U>::dfsIsDAG(Vertex<T,U> *v) const {
     v->visited = true;
     v->processing = true;
     for (auto & e : v->adj) {
@@ -441,13 +453,13 @@ bool Graph<T>::dfsIsDAG(Vertex<T> *v) const {
  * Follows the algorithm described in theoretical classes.
  */
 
-template<class T>
-vector<T> Graph<T>::topsort() const {
+template<class T, class U>
+vector<T> Graph<T,U>::topsort() const {
     if (!isDAG()) return {};
     vector<T> order;
-    for (Vertex<T>* v: this->getVertexSet()) v->setVisited(false);
+    for (Vertex<T,U>* v: this->getVertexSet()) v->setVisited(false);
 
-    for (Vertex<T>* v: this->getVertexSet()) {
+    for (Vertex<T,U>* v: this->getVertexSet()) {
         if (v->isVisited()) continue;
         dfsTopSort(v, order);
     }
@@ -456,11 +468,11 @@ vector<T> Graph<T>::topsort() const {
     return order;
 }
 
-template<class T>
-void dfsTopSort(Vertex<T> *v, vector<T> &order) {
+template<class T, class U>
+void dfsTopSort(Vertex<T,U> *v, vector<T> &order) {
     v->setVisited(true);
-    for (Edge<T> e: v->getAdj()) {
-        Vertex<T>* w = e.getDest();
+    for (Edge<T,U> e: v->getAdj()) {
+        Vertex<T,U>* w = e.getDest();
         if (w->isVisited()) continue;
         dfsTopSort(w, order);
     }
