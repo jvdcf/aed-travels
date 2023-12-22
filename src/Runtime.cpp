@@ -1,7 +1,14 @@
 #include "Runtime.hpp"
+#include "data/Airline.hpp"
+#include "data/Airport.hpp"
 #include <array>
+#include <cstdint>
+#include <exception>
 #include <iostream>
+#include <ostream>
+#include <set>
 #include <sstream>
+#include <vector>
 
 Runtime::Runtime(Data *data) { this->data = data; }
 
@@ -44,12 +51,24 @@ void Runtime::processArgs(vector<std::string> args) {
               << "    help:           takes 0 arguments:      help\n"
               << "        Prints this help.\n\n"
               << "    list_counts:    takes 0 arguments:      list_counts\n"
-              << "        Counts the global number of airports, airlines and flights.\n\n";
+              << "        Counts the global number of airports, airlines and flights.\n\n"
+              << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
+              << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+    ;
     return;
   }
 
   if (args[0] == "list_counts") {
     countAll();
+    return;
+  }
+
+  if (args[0] == "display_airport") {
+    vector<string> local_args;
+    for (int i = 1; i < args.size(); ++i) {
+      local_args.push_back(args[i]);
+    }
+    displayAirport(local_args);
     return;
   }
 
@@ -67,3 +86,56 @@ void Runtime::countAll() {
             << "  Airlines: " << res[1] << '\n'
             << "  Flights:  " << res[2] << '\n';
 }
+
+void Runtime::displayAirport(std::vector<std::string> args) {
+  try {
+    uint16_t code = Airport::codeToHash(args[0]);
+    Vertex<Airport, Airline*> *v_ap = data->getAirportsByCode().at(code);
+    Airport ap = v_ap->getInfo();
+    std::cout << "Airport " << ap.codeToString(ap.getCode()) << ":\n" 
+              << "  Name        : " << ap.getName() << ";\n"
+              << "  Location    : " << ap.getCity() << "/" << ap.getCountry() << ";\n"
+              << "  Coordinates : " << "Lat: " << ap.getLatitude() << " Long: " << ap.getLongitude() << ";" << std::endl;
+    auto edg = v_ap->getAdj();
+    std::set<uint16_t> als;
+    std::set<uint16_t> dst;
+    std::set<std::string> countries;
+    for (auto e : edg) {
+      als.insert(e.getInfo()->getCode());
+      dst.insert(e.getDest()->getInfo().getCode());
+      countries.insert(e.getDest()->getInfo().getCountry());
+    }
+    std::cout << "Statistics: \n" 
+              << "  Number of flights     : " << edg.size() << ";\n"
+              << "  Number of airlines    : " << als.size() << ";\n"
+              << "  Number of destinations: " << dst.size() << ";\n"
+              << "  Number of countries   : " << countries.size() << ";\n"
+              << std::endl;
+    if (args.size() == 2) {
+      std::string flag = args[1];
+      if (flag == "--full" || flag == "-f") {
+        std::cout << "Flights:" << std::endl;
+        for (auto alcode : als) {
+          std::cout << "  Airline " << Airline::codeToString(alcode) << ":" << std::endl;
+          for (auto e : edg) {
+            if (e.getInfo()->getCode() == alcode) {
+              std::cout << "    Destination: " << Airport::codeToString(e.getDest()->getInfo().getCode()) << std::endl;
+            }
+          }
+        }
+      } else {
+        std::cerr << "ERROR   : " << "unknown argument " << args[1] << "." << std::endl;
+      }
+    } else if (args.size() == 1) {
+      return;
+    } else {
+      std::cerr << "ERROR   : " << "tried to provide " << args.size() << " arguments, but this function takes either 1 or 2." << std::endl;
+    }
+  } catch (exception &e) {
+    std::cerr << "ERROR   : argument " << args[0] << "is not a valid airport code!" << std::endl;
+  } 
+  return;
+}
+
+
+

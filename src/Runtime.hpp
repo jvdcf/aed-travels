@@ -2,14 +2,16 @@
 #define AED2324_PRJ2_G23_RUNTIME_HPP
 
 #include "data/Data.hpp"
+#include <vector>
 
 class Runtime {
 private:
   Data *data;
 
-  void processArgs(vector<std::string> args);
+  void processArgs(std::vector<std::string> args);
   
   void countAll();
+  void displayAirport(std::vector<std::string> v);
 
 public:
   explicit Runtime(Data *data);
