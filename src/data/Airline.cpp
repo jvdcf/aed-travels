@@ -10,9 +10,9 @@ Airline::Airline(const std::string& code, const std::string& name, const std::st
 }
 Airline::Airline() {
     this->code = 0;
-    this->name = nullptr;
-    this->alias = nullptr;
-    this->country = nullptr;
+    this->name = "";
+    this->alias = "";
+    this->country = "";
 }
 
 std::string Airline::getCodeStr() const {
