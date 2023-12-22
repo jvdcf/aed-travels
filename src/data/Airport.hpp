@@ -2,6 +2,7 @@
 #define AED2324_PRJ2_G23_AIRPORT_HPP
 
 
+#include <memory>
 #include <string>
 #include <cstdint>
 
@@ -23,10 +24,10 @@ public:
     std::string getCountry() const;
     float getLatitude() const;
     float getLongitude() const;
-
-    uint16_t codeToHash(const std::string& code) const;
-    std::string codeToString(uint16_t code) const;
-
+    float disToOther(const Airport& o) const;
+    static uint16_t codeToHash(const std::string& code);
+    static std::string codeToString(uint16_t code);
+    bool operator==(const Airport& other); 
 };
 
 #endif //AED2324_PRJ2_G23_AIRPORT_HPP
