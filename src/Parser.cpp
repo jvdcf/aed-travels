@@ -30,6 +30,7 @@ Data Parser::parse(const std::string& airports, const std::string& airlines, con
 void Parser::parseAirports(Data &data, const std::string& csv) {
     std::string line;
     std::fstream s(csv);
+    std::getline(s,line);
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
         Airport entry = Airport(csv_fields[0], csv_fields[1], csv_fields[2], csv_fields[3], std::stof(csv_fields[4]), std::stof(csv_fields[5]));
@@ -41,6 +42,7 @@ void Parser::parseAirports(Data &data, const std::string& csv) {
 void Parser::parseAirlines(Data &data, const std::string& csv) {
     std::string line;
     std::fstream s(csv);
+    std::getline(s,line);
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
         Airline entry = Airline(csv_fields[0], csv_fields[1], csv_fields[2], csv_fields[3]);
@@ -52,6 +54,7 @@ void Parser::parseAirlines(Data &data, const std::string& csv) {
 void Parser::parseFlights(Data &data, const std::string& csv) {
     std::string line;
     std::fstream s(csv);
+    std::getline(s,line);
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
         line.clear();
