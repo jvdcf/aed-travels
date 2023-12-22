@@ -13,5 +13,11 @@ int main(int argc, char** argv) {
   // TODO
   std::cerr << "TODO: Read program arguments for the database.\n";
   std::cerr << "TODO: Error messages for illegal arguments.\n";
+
+  Data data;
+  // TODO
+
+  Runtime rt(&data);
+  rt.run();
 }
 

@@ -6,11 +6,13 @@
 
 class Runtime {
 private:
-    Data data;
+    Data* data;
+
+    void processArgs(vector<std::string> args);
 
 public:
-    Runtime(Data data);
-    void run();
+    explicit Runtime(Data* data);
+    [[noreturn]] void run();
 };
 
 
