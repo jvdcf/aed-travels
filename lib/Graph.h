@@ -75,6 +75,10 @@ public:
 };
 
 template <class T, class U>
+struct CmpVertexPtr {
+};
+
+template <class T, class U>
 class Graph {
     vector<Vertex<T,U> *> vertexSet;      // vertex set
     int _index_;                        // auxiliary field
@@ -86,7 +90,7 @@ class Graph {
 public:
     Vertex<T,U> *findVertex(const T &in) const;
     int getNumVertex() const;
-    bool addVertex(const T &in);
+    Vertex<T,U>* addVertex(const T &in);
     bool removeVertex(const T &in);
     bool addEdge(const T &sourc, const T &dest, double w);
     bool removeEdge(const T &sourc, const T &dest);
@@ -233,11 +237,11 @@ void Vertex<T,U>::setAdj(const vector<Edge<T,U>> &edges) {
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T, class U>
-bool Graph<T,U>::addVertex(const T &in) {
-    if ( findVertex(in) != NULL)
-        return false;
+Vertex<T,U>* Graph<T,U>::addVertex(const T &in) {
+    if (findVertex(in) != NULL)
+        return nullptr;
     vertexSet.push_back(new Vertex<T,U>(in));
-    return true;
+    return vertexSet.back();
 }
 
 

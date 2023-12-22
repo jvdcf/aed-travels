@@ -2,7 +2,10 @@
 #include "Airline.hpp"
 #include "Airport.hpp"
 #include <cstdint>
+#include <cstdlib>
+#include <iterator>
 #include <string>
+#include <iostream>
 
 Data::Data() {
     this->searchAirportByCode = unordered_map<uint16_t, Vertex<Airport,Airline*>*>();
@@ -11,9 +14,13 @@ Data::Data() {
 }
 
 void Data::loadAirport(Airport &airport) {
-    flights.addVertex(airport);
-    searchAirportByCode[airport.getCode()] = flights.findVertex(airport);
-    searchAirportByName[airport.getName()] = flights.findVertex(airport);
+    auto v_ptr = flights.addVertex(airport);
+    if (v_ptr == nullptr) {
+        std::cout << "There is something seriously wrong with the database: airport " << airport.getName() << " is repeated multiple times" << std::endl;
+        std::exit(1);
+    }
+    searchAirportByCode[airport.getCode()] = v_ptr;
+    searchAirportByName[airport.getName()] = v_ptr;
 }
 
 void Data::loadAirline(Airline &airline) {
