@@ -3,7 +3,6 @@
 #include "Airport.hpp"
 #include <cstdint>
 #include <cstdlib>
-#include <iterator>
 #include <string>
 #include <iostream>
 
@@ -35,4 +34,17 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
     auto tmp = src->getAdj();
     tmp.push_back(Edge<Airport,Airline*>(dst, distance, air));
     src->setAdj(tmp);
+}
+
+// ========================================================================================
+
+std::array<unsigned, 3> Data::countAll() {
+  unsigned airportsCount = searchAirportByCode.size();
+  unsigned airlinesCount = searchAirlines.size();
+  unsigned flightsCount = 0;
+  for (auto v: flights.getVertexSet()) {
+    flightsCount += v->getAdj().size();
+  }
+
+  return {airportsCount, airlinesCount, flightsCount};
 }
