@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#! /bin/sh
 txtblk=$(tput setaf 0) # Black - Regular
 txtred=$(tput setaf 1) # Red
 txtgrn=$(tput setaf 2) # Green
@@ -18,5 +18,5 @@ make -j$(nproc)
 
 clear
 echo -e "${txtgrn}[3/3] Executing AED2324_PRJ2_G23 ${txtwht}"
-./AED2324_PRJ2_G23 -ap ../dataset/airports.csv -al ../dataset/airlines.csv -f ../dataset/flights.csv
+rlwrap ./AED2324_PRJ2_G23 -ap ../dataset/airports.csv -al ../dataset/airlines.csv -f ../dataset/flights.csv
 

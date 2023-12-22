@@ -36,6 +36,19 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
     src->setAdj(tmp);
 }
 
+std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> Data::getAirportsByCode() const {
+  return searchAirportByCode;
+}
+std::unordered_map<std::string, Vertex<Airport, Airline *> *> Data::getAirportsByName() const {
+  return searchAirportByName;
+}
+std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
+  return searchAirlines;
+}
+
+
+
+
 // ========================================================================================
 
 std::array<unsigned, 3> Data::countAll() {
