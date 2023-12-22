@@ -16,7 +16,7 @@ Data::Data() {
 void Data::loadAirport(Airport &airport) {
     auto v_ptr = flights.addVertex(airport);
     if (v_ptr == nullptr) {
-        std::cerr << "There is something seriously wrong with the database: airport " << airport.getName() << " is repeated multiple times" << std::endl;
+        std::cerr << "ERROR   : There is something seriously wrong with the database: airport " << airport.getName() << " is repeated multiple times" << std::endl;
         std::exit(1);
     }
     searchAirportByCode[airport.getCode()] = v_ptr;

@@ -36,7 +36,7 @@ void Parser::parseAirports(Data &data, const std::string& csv) {
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
         if (csv_fields.size() != 6) {
-            std::cerr << "WARNING: Invalid line in file that stores the airports' information." << std::endl;
+            std::cerr << "WARNING : Invalid line in file that stores the airports' information." << std::endl;
             std::cerr << "INFO    : If you only see one warning per file, you might have a trailing empty line." << std::endl;
             continue;
         }
@@ -53,7 +53,7 @@ void Parser::parseAirlines(Data &data, const std::string& csv) {
     while (std::getline(s,line)) {
         auto csv_fields = split_csv(line);
         if (csv_fields.size() != 4) {
-            std::cerr << "WARNING: Invalid line in file that stores the airlines' information." << std::endl;
+            std::cerr << "WARNING : Invalid line in file that stores the airlines' information." << std::endl;
             std::cerr << "INFO    : If you only see one warning per file, you might have a trailing empty line." << std::endl;
             continue;
         }
