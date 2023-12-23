@@ -55,7 +55,7 @@ void Runtime::processArgs(vector<std::string> args) {
               << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
               << "        Displays information about an airport, optionally displaying all flight information.\n\n"
               << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
-              << "        Displays information about an airline.\n\n"
+              << "        Displays information about an airline and their number of flights.\n\n"
     ;
     return;
   }
@@ -159,7 +159,7 @@ void Runtime::displayAirport(std::vector<std::string> args) {
 }
 
 void Runtime::displayAirline(Airline &al) {
-    std::cout << "Airline " << al.codeToString(al.getCode()) << ":\n"
+    std::cout << "Airline " << Airline::codeToString(al.getCode()) << ":\n"
               << "  Name        : " << al.getName() << ";\n";
 
     if (!al.getAlias().empty() && al.getAlias() != "_") {
@@ -167,5 +167,10 @@ void Runtime::displayAirline(Airline &al) {
     }
 
     std::cout << "  Country     : " << al.getCountry() << ";\n"
+              << std::endl;
+
+    unsigned flights = data->flightsPerAirline(al.getCode());
+    std::cout << "Statistics: \n"
+              << "  Number of flights: " << flights << ";\n"
               << std::endl;
 }
