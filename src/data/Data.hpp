@@ -29,6 +29,7 @@ public:
   std::unordered_map<uint16_t, Airline> getAirlines()        const;
 
   std::array<unsigned, 3> countAll();
+  unsigned flightsPerAirline(uint16_t airline_code);
 
   // TODO
 };

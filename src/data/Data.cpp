@@ -61,3 +61,15 @@ std::array<unsigned, 3> Data::countAll() {
 
   return {airportsCount, airlinesCount, flightsCount};
 }
+
+unsigned Data::flightsPerAirline(uint16_t code) {
+    unsigned count = 0;
+    for (auto v: flights.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            if (e.getInfo()->getCode() == code) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
