@@ -54,6 +54,8 @@ void Runtime::processArgs(vector<std::string> args) {
               << "        Counts the global number of airports, airlines and flights.\n\n"
               << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
               << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+              << "    essential_airports: takes 0 arguments:  essential_airports\n"
+              << "        Displays all essential airports codes to the network's circulation capability.\n\n"
     ;
     return;
   }
@@ -70,6 +72,11 @@ void Runtime::processArgs(vector<std::string> args) {
     }
     displayAirport(local_args);
     return;
+  }
+
+  if (args[0] == "essential_airports") {
+      essentialAirports();
+      return;
   }
 
   std::cerr << "ERROR: No such command " << args[0]
@@ -137,5 +144,17 @@ void Runtime::displayAirport(std::vector<std::string> args) {
   return;
 }
 
+void Runtime::essentialAirports() {
+    unordered_set<uint16_t> res = data->essentialAirports();
+    unsigned i = 0;
 
+    std::cout << res.size() << " essential airports found: (Articulation points of the graph)" << std::endl;
 
+    for (const auto& ap : res) {
+        std::cout << "  " << Airport::codeToString(ap) << " ";
+        i++;
+        if (i % 10 == 0) std::cout << std::endl;
+    }
+
+    std::cout << std::endl << std::endl;
+}

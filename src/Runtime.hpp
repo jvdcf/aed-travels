@@ -12,10 +12,13 @@ private:
   
   void countAll();
   void displayAirport(std::vector<std::string> v);
+  void essentialAirports();
 
 public:
   explicit Runtime(Data *data);
   [[noreturn]] void run();
+
+
 };
 
 #endif // AED2324_PRJ2_G23_RUNTIME_HPP
