@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 class Data {
 private:
@@ -29,6 +30,7 @@ public:
   std::unordered_map<uint16_t, Airline> getAirlines()        const;
 
   std::array<unsigned, 3> countAll();
+  std::unordered_set<uint16_t> essentialAirports();
 
   // TODO
 };
