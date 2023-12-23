@@ -54,6 +54,8 @@ void Runtime::processArgs(vector<std::string> args) {
               << "        Counts the global number of airports, airlines and flights.\n\n"
               << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
               << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+              << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
+              << "        Displays information about an airline.\n\n"
     ;
     return;
   }
@@ -70,6 +72,25 @@ void Runtime::processArgs(vector<std::string> args) {
     }
     displayAirport(local_args);
     return;
+  }
+
+  if (args[0] == "display_airline") {
+      if (args.size() != 2) {
+          std::cerr << "ERROR   : " << "display_airline takes exactly 1 argument." << std::endl;
+          return;
+      }
+
+      Airline al;
+      try {
+          uint16_t code = Airport::codeToHash(args[1]);
+          al = data->getAirlines().at(code);
+      } catch (exception &e) {
+          std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid airline code!" << std::endl;
+          return;
+      }
+
+      displayAirline(al);
+      return;
   }
 
   std::cerr << "ERROR: No such command " << args[0]
@@ -137,5 +158,14 @@ void Runtime::displayAirport(std::vector<std::string> args) {
   return;
 }
 
+void Runtime::displayAirline(Airline &al) {
+    std::cout << "Airline " << al.codeToString(al.getCode()) << ":\n"
+              << "  Name        : " << al.getName() << ";\n";
 
+    if (!al.getAlias().empty() && al.getAlias() != "_") {
+        std::cout << "  Callsign    : " << al.getAlias() << ";\n";
+    }
 
+    std::cout << "  Country     : " << al.getCountry() << ";\n"
+              << std::endl;
+}
