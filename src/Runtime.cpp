@@ -64,8 +64,8 @@ void Runtime::processArgs(vector<std::string> args) {
   }
 
   if (args[0] == "display_airport") {
-    if (args.size() <= 1 | args.size() > 3) {
-        std::cerr << "ERROR   : " << "display_airport takes 1 or 2 arguments." << std::endl;
+    if (args.size() <= 1 | args.size() > 5) {
+        std::cerr << "ERROR   : " << "display_airport takes up to 3 arguments." << std::endl;
       return;
     }
 
@@ -79,17 +79,29 @@ void Runtime::processArgs(vector<std::string> args) {
     }
 
     bool full = false;
-    if (args.size() == 3) {
-      std::string flag = args[2];
-      if (flag == "--full" || flag == "-f") {
-        full = true;
-      } else {
-        std::cerr << "ERROR   : " << "unknown argument " << args[2] << "." << std::endl;
+    int k = 1;
+    for (int i = 2; i < args.size(); ++i) {
+        std::string flag = args[i];
+
+        if (flag == "--full" || flag == "-f") {
+            full = true;
+
+        } else if (flag == "-k") {
+            i++;
+            try {
+                k = std::stoi(args[i]);
+            } catch (exception &e) {
+                std::cerr << "ERROR   : " << "argument " << args[i] << " is not a valid integer!" << std::endl;
+                return;
+            }
+
+        } else {
+        std::cerr << "ERROR   : " << "unknown argument " << args[i] << "." << std::endl;
         return;
       }
     }
 
-    displayAirport(v_ap, full);
+    displayAirport(v_ap, full, k);
     return;
   }
 
@@ -108,7 +120,7 @@ void Runtime::countAll() {
             << "  Flights:  " << res[2] << '\n';
 }
 
-void Runtime::displayAirport(const Vertex<Airport, Airline*>* v_ap, bool full) {
+void Runtime::displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigned k) {
     Airport ap = v_ap->getInfo();
     std::cout << "Airport " << Airport::codeToString(ap.getCode()) << ":\n"
               << "  Name        : " << ap.getName() << ";\n"
@@ -117,19 +129,18 @@ void Runtime::displayAirport(const Vertex<Airport, Airline*>* v_ap, bool full) {
 
     auto edg = v_ap->getAdj();
     std::set<uint16_t> als;
-    std::set<uint16_t> dst;
     std::set<std::string> countries;
     for (auto e : edg) {
       als.insert(e.getInfo()->getCode());
-      dst.insert(e.getDest()->getInfo().getCode());
       countries.insert(e.getDest()->getInfo().getCountry());
     }
 
     std::cout << "Statistics: \n" 
-              << "  Number of flights     : " << edg.size() << ";\n"
-              << "  Number of airlines    : " << als.size() << ";\n"
-              << "  Number of destinations: " << dst.size() << ";\n"
-              << "  Number of countries   : " << countries.size() << ";\n"
+              << "  Number of flights                  : " << edg.size() << ";\n"
+              << "  Number of airlines                 : " << als.size() << ";\n"
+              << "  Number of destinations with " << k << " stops: "
+                    << data->destinationsAtKStops(v_ap, k) << ";\n"
+              << "  Number of countries                : " << countries.size() << ";\n"
               << std::endl;
 
     if (full) {

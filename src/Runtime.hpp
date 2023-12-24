@@ -11,7 +11,7 @@ private:
   void processArgs(std::vector<std::string> args);
   
   void countAll();
-  void displayAirport(const Vertex<Airport, Airline*>* v, bool full);
+  void displayAirport(Vertex<Airport, Airline*>* v, bool full, unsigned k);
 
 public:
   explicit Runtime(Data *data);
