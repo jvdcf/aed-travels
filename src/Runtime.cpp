@@ -72,6 +72,24 @@ void Runtime::processArgs(vector<std::string> args) {
     return;
   }
 
+  if (args[0] == "greatest_airport") {
+    if (args.size() != 2) {
+        std::cerr << "ERROR   : " << "greatest_airport takes exactly 1 argument." << std::endl;
+        return;
+    }
+
+    int k;
+    try {
+        k = std::stoi(args[1]);
+    } catch (exception &e) {
+        std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid integer!" << std::endl;
+        return;
+    }
+
+    greatestAirport(k);
+    return;
+  }
+
   std::cerr << "ERROR: No such command " << args[0]
             << ". Try typing 'help' to know the available commands."
             << std::endl;
@@ -137,5 +155,13 @@ void Runtime::displayAirport(std::vector<std::string> args) {
   return;
 }
 
+void Runtime::greatestAirport(int k) {
+    auto res = data->greatestAirport(k);
+    std::string name = res->getInfo().getName();
+    uint16_t code = res->getInfo().getCode();
+    unsigned flights = res->getAdj().size();
 
-
+    std::cout << "Airport " << name << " (" << Airport::codeToString(code) << ')'
+              << " with " << flights << " flights"
+              << std::endl << std::endl;
+}
