@@ -54,6 +54,8 @@ void Runtime::processArgs(vector<std::string> args) {
               << "        Counts the global number of airports, airlines and flights.\n\n"
               << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
               << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+              << "    greatest_airport: takes 1 argument:     greatest_airport <index>\n"
+              << "        Displays the airport with the <index>-th most flights.\n\n"
     ;
     return;
   }
