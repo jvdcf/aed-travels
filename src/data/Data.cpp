@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 Data::Data() {
     this->searchAirportByCode = unordered_map<uint16_t, Vertex<Airport,Airline*>*>();
@@ -60,4 +61,14 @@ std::array<unsigned, 3> Data::countAll() {
   }
 
   return {airportsCount, airlinesCount, flightsCount};
+}
+
+Vertex<Airport, Airline*>* Data::greatestAirport(unsigned int k) {
+    std::vector<Vertex<Airport,Airline*>*> v = flights.getVertexSet();
+    std::sort(v.begin(), v.end(),
+              [](Vertex<Airport,Airline*>* a, Vertex<Airport,Airline*>* b) {
+        return a->getAdj().size() > b->getAdj().size();
+    });
+
+    return v[k];
 }

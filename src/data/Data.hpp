@@ -31,6 +31,7 @@ public:
   std::array<unsigned, 3> countAll();
 
   // TODO
+  Vertex<Airport, Airline*>* greatestAirport(unsigned int k);
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP
