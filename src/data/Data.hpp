@@ -31,6 +31,7 @@ public:
   std::array<unsigned, 3> countAll();
 
   // TODO
+    unsigned int destinationsAtKStops(Vertex<Airport, Airline *> *v_ap, unsigned int k);
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP
