@@ -37,8 +37,12 @@ public:
 	std::array<unsigned, 3> countAll();
 
 	// Calculates the shortest number of stops it is needed to go from origin to destination
+	// If there isn't a path, returns -1
 	// TODO : IMPROVE THIS NAME 'CAUSE IT'S A SHIT
 	int shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const;
+
+	// returns the diameter of the graph and assigns the parameters origin ad destination to its respective value
+	int maxTrip(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const;
 
 	// TODO
 };

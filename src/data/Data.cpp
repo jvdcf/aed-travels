@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 Data::Data() {
 	this->searchAirportByCode = unordered_map<uint16_t, Vertex<Airport, Airline *> *>();
@@ -97,4 +98,31 @@ int Data::shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airli
 			res++;
 		}
 	}
+
+	return -1;
+}
+
+int Data::maxTrip(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const {
+	std::vector<Vertex<Airport, Airline *> *> v = flights.getVertexSet();
+	std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> * a, Vertex<Airport, Airline *> *b) {
+		return a->getInfo().getCode() < b->getInfo().getCode();
+	});
+
+	int distanceTable[v.size()][v.size()];
+	int max = 0;
+	unsigned o = 0, d = 0;
+	for (unsigned i = 0; i < v.size(); ++i) {
+		for (unsigned j = 0; j < v.size(); ++j) {
+			distanceTable[i][j] = shortestPath(v[i], v[j]);
+			if (distanceTable[i][j] > max) {
+				max = distanceTable[i][j];
+				o = i;
+				d = j;
+			}
+		}
+	}
+
+	origin = v[o];
+	destination = v[d];
+	return max;
 }

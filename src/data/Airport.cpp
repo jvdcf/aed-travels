@@ -39,7 +39,7 @@ std::string Airport::getCountry() const {
 float Airport::getLatitude() const {
     return latitude;
 }
-	int calculateDiameter(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const;
+
 float Airport::getLongitude() const {
     return longitude;
 }
