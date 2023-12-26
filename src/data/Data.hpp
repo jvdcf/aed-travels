@@ -11,26 +11,36 @@
 
 class Data {
 private:
-  Graph<Airport, Airline *> flights;
-  std::unordered_map<uint16_t, Vertex<Airport, Airline *> *>
-      searchAirportByCode;
-  std::unordered_map<std::string, Vertex<Airport, Airline *> *>
-      searchAirportByName;
-  std::unordered_map<uint16_t, Airline> searchAirlines;
+	Graph<Airport, Airline *> flights;
+	std::unordered_map<uint16_t, Vertex<Airport, Airline *> *>
+			searchAirportByCode;
+	std::unordered_map<std::string, Vertex<Airport, Airline *> *>
+			searchAirportByName;
+	std::unordered_map<uint16_t, Airline> searchAirlines;
 
 public:
-  Data();
-  void loadAirport(Airport &airport);
-  void loadAirline(Airline &airline);
-  void loadFlight(uint16_t source_code, uint16_t target_code,
-                  uint16_t airline_code);
-  std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> getAirportsByCode() const;
-  std::unordered_map<std::string, Vertex<Airport, Airline *> *> getAirportsByName() const;
-  std::unordered_map<uint16_t, Airline> getAirlines()        const;
+	Data();
 
-  std::array<unsigned, 3> countAll();
+	void loadAirport(Airport &airport);
 
-  // TODO
+	void loadAirline(Airline &airline);
+
+	void loadFlight(uint16_t source_code, uint16_t target_code,
+					uint16_t airline_code);
+
+	std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> getAirportsByCode() const;
+
+	std::unordered_map<std::string, Vertex<Airport, Airline *> *> getAirportsByName() const;
+
+	std::unordered_map<uint16_t, Airline> getAirlines() const;
+
+	std::array<unsigned, 3> countAll();
+
+	// Calculates the shortest number of stops it is needed to go from origin to destination
+	// TODO : IMPROVE THIS NAME 'CAUSE IT'S A SHIT
+	int shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const;
+
+	// TODO
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP
