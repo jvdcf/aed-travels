@@ -159,7 +159,7 @@ void Runtime::displayAirport(std::vector<std::string> args) {
 }
 
 void Runtime::displayAirline(Airline &al) {
-    std::cout << "Airline " << Airline::codeToString(al.getCode()) << ":\n"
+    std::cout << "Airline " << al.getCodeStr() << ":\n"
               << "  Name        : " << al.getName() << ";\n";
 
     if (!al.getAlias().empty() && al.getAlias() != "_") {
