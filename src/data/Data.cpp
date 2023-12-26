@@ -102,27 +102,30 @@ int Data::shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airli
 	return -1;
 }
 
-int Data::maxTrip(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const {
+int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
+				  std::vector<Vertex<Airport, Airline *> *> &destination) const {
 	std::vector<Vertex<Airport, Airline *> *> v = flights.getVertexSet();
-	std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> * a, Vertex<Airport, Airline *> *b) {
+	std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> *a, Vertex<Airport, Airline *> *b) {
 		return a->getInfo().getCode() < b->getInfo().getCode();
 	});
 
 	int distanceTable[v.size()][v.size()];
 	int max = 0;
-	unsigned o = 0, d = 0;
 	for (unsigned i = 0; i < v.size(); ++i) {
 		for (unsigned j = 0; j < v.size(); ++j) {
 			distanceTable[i][j] = shortestPath(v[i], v[j]);
 			if (distanceTable[i][j] > max) {
+				origin.clear();
+				destination.clear();
 				max = distanceTable[i][j];
-				o = i;
-				d = j;
+				origin.push_back(v[i]);
+				destination.push_back(v[j]);
+			} else if (distanceTable[i][j] == max) {
+				origin.push_back(v[i]);
+				destination.push_back(v[j]);
 			}
 		}
 	}
 
-	origin = v[o];
-	destination = v[d];
 	return max;
 }
