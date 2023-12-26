@@ -137,10 +137,16 @@ void Runtime::displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigne
 
     std::cout << "Statistics: \n" 
               << "  Number of flights                  : " << edg.size() << ";\n"
-              << "  Number of airlines                 : " << als.size() << ";\n"
-              << "  Number of destinations with " << k << " stops: "
-                    << data->destinationsAtKStops(v_ap, k) << ";\n"
-              << "  Number of countries                : " << countries.size() << ";\n"
+              << "  Number of airlines                 : " << als.size() << ";\n";
+
+    if (k != 1) {
+        std::cout << "  Number of destinations with " << k << " stops: "
+                  << data->destinationsAtKStops(v_ap, k) << ";\n";
+    } else {
+        std::cout << "  Number of destinations             : "
+              << data->destinationsAtKStops(v_ap, 1) << ";\n";
+    }
+    std::cout << "  Number of countries                : " << countries.size() << ";\n"
               << std::endl;
 
     if (full) {
