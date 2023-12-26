@@ -145,7 +145,7 @@ void Runtime::displayAirport(std::vector<std::string> args) {
 }
 
 void Runtime::essentialAirports() {
-    unordered_set<uint16_t> res = data->essentialAirports();
+    std::vector<uint16_t> res = data->essentialAirports();
     unsigned i = 0;
 
     std::cout << res.size() << " essential airports found: (Articulation points of the graph)" << std::endl;

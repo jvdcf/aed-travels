@@ -30,7 +30,7 @@ public:
   std::unordered_map<uint16_t, Airline> getAirlines()        const;
 
   std::array<unsigned, 3> countAll();
-  std::unordered_set<uint16_t> essentialAirports();
+  std::vector<uint16_t> essentialAirports();
 
   // TODO
 };
