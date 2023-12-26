@@ -65,7 +65,7 @@ void Runtime::processArgs(vector<std::string> args) {
 
   if (args[0] == "display_airport") {
     if (args.size() <= 1 | args.size() > 5) {
-        std::cerr << "ERROR   : " << "display_airport takes up to 3 arguments." << std::endl;
+        std::cerr << "ERROR   : " << "display_airport takes up to 4 arguments." << std::endl;
       return;
     }
 
