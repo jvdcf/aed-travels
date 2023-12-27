@@ -63,12 +63,12 @@ std::array<unsigned, 3> Data::countAll() {
   return {airportsCount, airlinesCount, flightsCount};
 }
 
-void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::vector<uint16_t>& l, int &i);
-std::vector<uint16_t> Data::essentialAirports() {
+void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::unordered_set<uint16_t>& l, int &i);
+std::unordered_set<uint16_t> Data::essentialAirports() {
     for (auto v: flights.getVertexSet()) {
         v->setVisited(false);
     }
-    std::vector<uint16_t> res;
+    std::unordered_set<uint16_t> res;
     int index = 0;
 
 
@@ -84,7 +84,7 @@ std::vector<uint16_t> Data::essentialAirports() {
 
 template <typename T>
 bool stackContains(std::stack<T> s, T elem);
-void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::vector<uint16_t>& l, int &i) {
+void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::unordered_set<uint16_t>& l, int &i) {
     int children = 0;
     v->setLow(++i);
     v->setNum(v->getLow());
@@ -99,8 +99,7 @@ void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::sta
             v->setLow(min(w->getLow(), v->getLow()));
 
             if ((v->getNum() != 1) && (w->getLow() >= v->getNum())) {       // Articulation point
-                l.push_back(v->getInfo().getCode());
-                l.push_back(v->getInfo().getCode());
+                l.insert(v->getInfo().getCode());
             }
 
         } else if (stackContains(s, w->getInfo().getCode())) {                                                            // Back edge
@@ -109,7 +108,7 @@ void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::sta
     }
 
     if ((v->getNum() == 1) && (children > 1)) {                             // Root special case
-        l.push_back(v->getInfo().getCode());
+        l.insert(v->getInfo().getCode());
     }
 
     s.pop();
