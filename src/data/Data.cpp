@@ -1,7 +1,6 @@
 #include "Data.hpp"
 #include "Airline.hpp"
 #include "Airport.hpp"
-#include <cstdint>
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -66,7 +65,7 @@ std::array<unsigned, 3> Data::countAll() {
 	return {airportsCount, airlinesCount, flightsCount};
 }
 
-int Data::shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const {
+int Data::distance(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const {
 	for (auto v: flights.getVertexSet()) {
 		v->setVisited(false);
 	}
@@ -110,26 +109,11 @@ int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 		return a->getInfo().getCode() < b->getInfo().getCode();
 	});
 
-/*
-	for (unsigned i = 0; i < v.size(); ++i) {
-		std::cout << v[i]->getInfo().getCode() << std::endl;
-	}
-*/
-
-	// int distanceTable[v.size()][v.size()];
-	// std::array<std::array<int, v.size()>, v.size()> distanceTable;
-/*
-	std::vector<std::vector<int>> distanceTable;
-	distanceTable.resize(v.size());
-	for (unsigned i = 0; i < v.size(); ++i) {
-		distanceTable[i].resize(v.size());
-	}
-*/
 	int *distanceTable = new int[v.size() * v.size()];
 	int max = 0;
 	for (unsigned i = 0; i < v.size(); ++i) {
 		for (unsigned j = 0; j < v.size(); ++j) {
-			distanceTable[i * v.size() + j] = shortestPath(v[i], v[j]);
+			distanceTable[i * v.size() + j] = distance(v[i], v[j]);
 			if (distanceTable[i * v.size() + j] > max) {
 				origin.clear();
 				destination.clear();
@@ -143,11 +127,6 @@ int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 		}
 	}
 	delete[] distanceTable;
-/*
-	for (unsigned i = 0; i < origin.size(); ++i) {
-		std::cout << origin[i]->getInfo().getCodeStr() << " --> " << destination[i]->getInfo().getCodeStr();
-	}
-*/
 
 	return max;
 }
