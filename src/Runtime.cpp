@@ -54,8 +54,8 @@ void Runtime::processArgs(vector<std::string> args) {
 				  << "        Counts the global number of airports, airlines and flights.\n\n"
 				  << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
 				  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
-				  << "    greatest_airport: takes 1 argument:     greatest_airport <index>\n"
-				  << "        Displays the airport with the <index>-th most flights (including incoming and outgoing).\n\n";
+				  << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
+				  << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n";
 		return;
 	}
 
@@ -74,19 +74,18 @@ void Runtime::processArgs(vector<std::string> args) {
 	}
 
 	if (args[0] == "greatest_airport") {
-		if (args.size() != 2) {
-			std::cerr << "ERROR   : " << "greatest_airport takes exactly 1 argument." << std::endl;
+		if (args.size() == 2 || args.size() > 3) {
+			std::cerr << "ERROR   : " << "greatest_airport takes either 0 or 2 arguments." << std::endl;      
 			return;
 		}
-
+    if (args.size() == 1) return greatestAirport(1);
 		int k;
 		try {
-			k = std::stoi(args[1]);
+			k = std::stoi(args[2]);
 		} catch (exception &e) {
 			std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid integer!" << std::endl;
 			return;
 		}
-
 		greatestAirport(k);
 		return;
 	}
