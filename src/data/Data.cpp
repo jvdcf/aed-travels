@@ -32,9 +32,7 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
     Vertex<Airport,Airline*>* dst = searchAirportByCode[dest_code];
     Airline* air = &searchAirlines[airline_code];
     float distance = src->getInfo().disToOther(dst->getInfo());
-    auto tmp = src->getAdj();
-    tmp.push_back(Edge<Airport,Airline*>(dst, distance, air));
-    src->setAdj(tmp);
+    flights.addEdge(src, dst, distance, air);
 }
 
 std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> Data::getAirportsByCode() const {
@@ -46,19 +44,6 @@ std::unordered_map<std::string, Vertex<Airport, Airline *> *> Data::getAirportsB
 std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
   return searchAirlines;
 }
-
-void Data::calculateIncomingFlights() {
-	for (auto v: flights.getVertexSet()) {
-		v->setIndegree(0);
-	}
-	for (auto v: flights.getVertexSet()) {
-		for (auto e: v->getAdj()) {
-			auto w = e.getDest();
-			w->setIndegree(w->getIndegree() + 1);
-		}
-	}
-}
-
 
 // ========================================================================================
 
@@ -75,7 +60,6 @@ std::array<unsigned, 3> Data::countAll() {
 
 Vertex<Airport, Airline*>* Data::greatestAirport(unsigned int k) {
     std::vector<Vertex<Airport,Airline*>*> v = flights.getVertexSet();
-	calculateIncomingFlights();
 
     std::sort(v.begin(), v.end(),
               [](Vertex<Airport,Airline*>* a, Vertex<Airport,Airline*>* b) {

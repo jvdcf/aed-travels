@@ -29,7 +29,7 @@ class Vertex {
     int num;               // auxiliary field
     int low;               // auxiliary field
 
-    void addEdge(Vertex<T,U> *dest, double w);
+    void addEdge(Vertex<T,U> *dest, double w, U info);
     bool removeEdgeTo(Vertex<T,U> *d);
 public:
     Vertex(T in);
@@ -43,8 +43,6 @@ public:
     void setAdj(const vector<Edge<T,U>> &edges);
 
     int getIndegree() const;
-
-    void setIndegree(int indegree);
 
     int getNum() const;
 
@@ -92,7 +90,8 @@ public:
     int getNumVertex() const;
     Vertex<T,U>* addVertex(const T &in);
     bool removeVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, double w);
+    bool addEdge(const T &sourc, const T &dest, double w, U info);
+    bool addEdge(Vertex<T, U> *sourc, Vertex<T, U> *dest, double w, U info);
     bool removeEdge(const T &sourc, const T &dest);
     vector<Vertex<T,U> * > getVertexSet() const;
     vector<T> dfs() const;
@@ -100,6 +99,7 @@ public:
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
+
 };
 
 /****************** Provided constructors and functions ********************/
@@ -192,11 +192,6 @@ int Vertex<T,U>::getIndegree() const {
 }
 
 template<class T, class U>
-void Vertex<T,U>::setIndegree(int i) {
-    Vertex::indegree = i;
-}
-
-template<class T, class U>
 int Vertex<T,U>::getNum() const {
     return num;
 }
@@ -251,12 +246,21 @@ Vertex<T,U>* Graph<T,U>::addVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T, class U>
-bool Graph<T,U>::addEdge(const T &sourc, const T &dest, double w) {
+bool Graph<T,U>::addEdge(const T &sourc, const T &dest, double w, U i) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
         return false;
-    v1->addEdge(v2,w);
+    v1->addEdge(v2,w,i);
+    return true;
+}
+
+template <class T, class U>
+bool Graph<T,U>::addEdge(Vertex<T,U> *sourc, Vertex<T,U> *dest, double w, U i) {
+    if (sourc == NULL || dest == NULL)
+        return false;
+    sourc->addEdge(dest, w, i);
+    dest->indegree++;
     return true;
 }
 
@@ -265,8 +269,8 @@ bool Graph<T,U>::addEdge(const T &sourc, const T &dest, double w) {
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T, class U>
-void Vertex<T,U>::addEdge(Vertex<T,U> *d, double w) {
-    adj.push_back(Edge<T,U>(d, w));
+void Vertex<T,U>::addEdge(Vertex<T,U> *d, double w, U i) {
+    adj.push_back(Edge<T,U>(d, w, i));
 }
 
 
