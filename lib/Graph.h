@@ -252,6 +252,7 @@ bool Graph<T,U>::addEdge(const T &sourc, const T &dest, double w, U i) {
     if (v1 == NULL || v2 == NULL)
         return false;
     v1->addEdge(v2,w,i);
+    v2->indegree++;
     return true;
 }
 
