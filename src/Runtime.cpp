@@ -54,6 +54,8 @@ void Runtime::processArgs(vector<std::string> args) {
 				  << "        Counts the global number of airports, airlines and flights.\n\n"
 				  << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
 				  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+          << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
+          << "        Displays information about an airline and their number of flights.\n\n"
 				  << "    max_trip:       takes 0 arguments:      max_trip\n"
 				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n"
 	    ;
@@ -73,6 +75,25 @@ void Runtime::processArgs(vector<std::string> args) {
 		displayAirport(local_args);
 		return;
 	}
+  
+  if (args[0] == "display_airline") {
+      if (args.size() != 2) {
+          std::cerr << "ERROR   : " << "display_airline takes exactly 1 argument." << std::endl;
+          return;
+      }
+
+      Airline al;
+      try {
+          uint16_t code = Airport::codeToHash(args[1]);
+          al = data->getAirlines().at(code);
+      } catch (exception &e) {
+          std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid airline code!" << std::endl;
+          return;
+      }
+
+      displayAirline(al);
+      return;
+  }
 
 	if (args[0] == "max_trip") {
 		maxTrip();
@@ -145,6 +166,23 @@ void Runtime::displayAirport(std::vector<std::string> args) {
 		std::cerr << "ERROR   : argument " << args[0] << "is not a valid airport code!" << std::endl;
 	}
 	return;
+}
+
+void Runtime::displayAirline(Airline &al) {
+    std::cout << "Airline " << al.getCodeStr() << ":\n"
+              << "  Name        : " << al.getName() << ";\n";
+
+    if (!al.getAlias().empty() && al.getAlias() != "_") {
+        std::cout << "  Callsign    : " << al.getAlias() << ";\n";
+    }
+
+    std::cout << "  Country     : " << al.getCountry() << ";\n"
+              << std::endl;
+
+    unsigned flights = data->flightsPerAirline(al.getCode());
+    std::cout << "Statistics: \n"
+              << "  Number of flights: " << flights << ";\n"
+              << std::endl;
 }
 
 void Runtime::maxTrip() {

@@ -25,8 +25,7 @@ public:
 
 	void loadAirline(Airline &airline);
 
-	void loadFlight(uint16_t source_code, uint16_t target_code,
-					uint16_t airline_code);
+	void loadFlight(uint16_t source_code, uint16_t target_code, uint16_t airline_code);
 
 	std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> getAirportsByCode() const;
 
@@ -34,12 +33,13 @@ public:
 
 	std::unordered_map<uint16_t, Airline> getAirlines() const;
 
+  
 	std::array<unsigned, 3> countAll();
+  
+  unsigned flightsPerAirline(uint16_t airline_code);
 
 	// returns the diameter of the graph and assigns the parameters origin ad destination to its respective values
 	int maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin, std::vector<Vertex<Airport, Airline *> *> &destination) const;
-
-	// TODO
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP

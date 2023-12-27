@@ -11,9 +11,8 @@ private:
 	void processArgs(std::vector<std::string> args);
 
 	void countAll();
-
 	void displayAirport(std::vector<std::string> v);
-
+  void displayAirline(Airline &al);
 	void maxTrip();
 
 public:
