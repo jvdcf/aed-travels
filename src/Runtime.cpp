@@ -52,7 +52,7 @@ void Runtime::processArgs(vector<std::string> args) {
               << "        Prints this help.\n\n"
               << "    list_counts:    takes 0 arguments:      list_counts\n"
               << "        Counts the global number of airports, airlines and flights.\n\n"
-              << "    display_airport:takes 1/3 arguments:    display_airport <airport_code> [-f | --full] [-k <n_stops>]\n"
+              << "    display_airport:takes 1/2/4 arguments:    display_airport <airport_code> [-f | --full] [-k <n_stops>]\n"
               << "        Displays information about an airport, optionally displaying all flight information and the number of destinations with k stops.\n\n"
     ;
     return;
