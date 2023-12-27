@@ -104,29 +104,27 @@ int Data::distance(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *
 
 int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 				  std::vector<Vertex<Airport, Airline *> *> &destination) const {
-	std::vector<Vertex<Airport, Airline *> *> v = flights.getVertexSet();
-	std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> *a, Vertex<Airport, Airline *> *b) {
+  std::vector<Vertex<Airport, Airline *> *> v = flights.getVertexSet();
+  std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> *a, Vertex<Airport, Airline *> *b) {
 		return a->getInfo().getCode() < b->getInfo().getCode();
 	});
-
-	int *distanceTable = new int[v.size() * v.size()];
+  
 	int max = 0;
 	for (unsigned i = 0; i < v.size(); ++i) {
 		for (unsigned j = 0; j < v.size(); ++j) {
-			distanceTable[i * v.size() + j] = distance(v[i], v[j]);
-			if (distanceTable[i * v.size() + j] > max) {
+			int dist = distance(v[i], v[j]);
+			if (dist > max) {
 				origin.clear();
 				destination.clear();
-				max = distanceTable[i * v.size() + j];
+				max = dist;
 				origin.push_back(v[i]);
 				destination.push_back(v[j]);
-			} else if (distanceTable[i * v.size() + j] == max) {
+			} else if (dist == max) {
 				origin.push_back(v[i]);
 				destination.push_back(v[j]);
 			}
 		}
 	}
-	delete[] distanceTable;
 
 	return max;
 }
