@@ -32,6 +32,8 @@ public:
 
   std::vector<Vertex<Airport, Airline *> *> shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airport, Airline *> *>destinations) const;
 
+  std::vector<std::string> bestFlight(const std::vector<Vertex<Airport, Airline *> *> &origins, const std::vector<Vertex<Airport, Airline *> *> &destinations) const;
+
   // TODO
 };
 

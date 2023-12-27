@@ -1,7 +1,6 @@
 #include "Data.hpp"
 #include "Airline.hpp"
 #include "Airport.hpp"
-#include <cstdint>
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -105,4 +104,23 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
 	}
 
 	return path; // No path found, so it returns the empty vector.
+}
+
+std::vector<std::string> Data::bestFlight(const std::vector<Vertex<Airport, Airline *> *> &origins,
+										  const std::vector<Vertex<Airport, Airline *> *> &destinations) const {
+	std::vector<Vertex<Airport, Airline *> *> best_flight_v = shortestPath(origins[0], destinations);
+	if (origins.size() > 1) {
+		for (unsigned i = 1; i < origins.size(); ++i) {
+			std::vector<Vertex<Airport, Airline *> *> buf = shortestPath(origins[i], destinations);
+			if (buf.size() < best_flight_v.size()) {
+				best_flight_v = buf;
+			}
+		}
+	}
+
+	std::vector<std::string> res;
+	for (auto v: best_flight_v) {
+		res.push_back(v->getInfo().getCodeStr());
+	}
+	return res;
 }
