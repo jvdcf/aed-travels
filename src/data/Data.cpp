@@ -86,9 +86,10 @@ int Data::shortestPath(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airli
 			return res;
 		} else {
 			for (auto e: v->getAdj()) {
-				if (!e.getDest()->isVisited()) {
-					v->setVisited(true);
-					q.push(e.getDest());
+				auto w = e.getDest();
+				if (!w->isVisited()) {
+					w->setVisited(true);
+					q.push(w);
 				}
 			}
 		}
@@ -141,7 +142,7 @@ int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 			}
 		}
 	}
-
+	delete[] distanceTable;
 /*
 	for (unsigned i = 0; i < origin.size(); ++i) {
 		std::cout << origin[i]->getInfo().getCodeStr() << " --> " << destination[i]->getInfo().getCodeStr();
