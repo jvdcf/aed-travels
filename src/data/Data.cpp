@@ -63,7 +63,7 @@ std::array<unsigned, 3> Data::countAll() {
 }
 
 unsigned Data::destinationsAtKStops(Vertex<Airport, Airline*>* v_ap, unsigned k) {
-    if (k <= 0) return 0;
+    int remaining = (int) k;
     unsigned res = 0;
     for (auto v : flights.getVertexSet()) v->setVisited(false);
     queue<Vertex<Airport, Airline*>*> q;
@@ -73,7 +73,7 @@ unsigned Data::destinationsAtKStops(Vertex<Airport, Airline*>* v_ap, unsigned k)
     while (!q.empty()) {
         if (countThisLevel == 0) {
             countThisLevel = (int) q.size();
-            k--;
+            remaining--;
         }
 
         v_ap = q.front();
@@ -82,7 +82,7 @@ unsigned Data::destinationsAtKStops(Vertex<Airport, Airline*>* v_ap, unsigned k)
 
         if (!v_ap->isVisited()) {
             v_ap->setVisited(true);
-            if (k <= 0) {
+            if (remaining < 0) {
                 res++;
             } else {
                 for (auto &e : v_ap->getAdj()) {
