@@ -82,6 +82,8 @@ std::vector<uint16_t> Data::essentialAirports() {
 
 }
 
+template <typename T>
+bool stackContains(std::stack<T> s, T elem);
 void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::vector<uint16_t>& l, int &i) {
     int children = 0;
     v->setLow(++i);
@@ -101,7 +103,7 @@ void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::sta
                 l.push_back(v->getInfo().getCode());
             }
 
-        } else {                                                            // Back edge
+        } else if (stackContains(s, w->getInfo().getCode())) {                                                            // Back edge
             v->setLow(min(w->getNum(), v->getLow()));
         }
     }
@@ -111,4 +113,16 @@ void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::sta
     }
 
     s.pop();
+}
+
+template <typename T>
+bool stackContains(const std::stack<T> s, T elem) {
+    std::stack<T> tmp = s;
+    while (!tmp.empty()) {
+        if (tmp.top() == elem) {
+            return true;
+        }
+        tmp.pop();
+    }
+    return false;
 }
