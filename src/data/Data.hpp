@@ -11,27 +11,32 @@
 
 class Data {
 private:
-  Graph<Airport, Airline *> flights;
-  std::unordered_map<uint16_t, Vertex<Airport, Airline *> *>
-      searchAirportByCode;
-  std::unordered_map<std::string, Vertex<Airport, Airline *> *>
-      searchAirportByName;
-  std::unordered_map<uint16_t, Airline> searchAirlines;
+	Graph<Airport, Airline *> flights;
+	std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> searchAirportByCode;
+	std::unordered_map<std::string, Vertex<Airport, Airline *> *> searchAirportByName;
+	std::unordered_map<uint16_t, Airline> searchAirlines;
+
+	void calculateIncomingFlights();
 
 public:
-  Data();
-  void loadAirport(Airport &airport);
-  void loadAirline(Airline &airline);
-  void loadFlight(uint16_t source_code, uint16_t target_code,
-                  uint16_t airline_code);
-  std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> getAirportsByCode() const;
-  std::unordered_map<std::string, Vertex<Airport, Airline *> *> getAirportsByName() const;
-  std::unordered_map<uint16_t, Airline> getAirlines()        const;
+	Data();
 
-  std::array<unsigned, 3> countAll();
+	void loadAirport(Airport &airport);
 
-  // TODO
-  Vertex<Airport, Airline*>* greatestAirport(unsigned int k);
+	void loadAirline(Airline &airline);
+
+	void loadFlight(uint16_t source_code, uint16_t target_code, uint16_t airline_code);
+
+	std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> getAirportsByCode() const;
+
+	std::unordered_map<std::string, Vertex<Airport, Airline *> *> getAirportsByName() const;
+
+	std::unordered_map<uint16_t, Airline> getAirlines() const;
+
+	std::array<unsigned, 3> countAll();
+
+	// TODO
+	Vertex<Airport, Airline *> *greatestAirport(unsigned int k);
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP

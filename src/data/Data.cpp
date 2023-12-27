@@ -47,7 +47,17 @@ std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
   return searchAirlines;
 }
 
-
+void Data::calculateIncomingFlights() {
+	for (auto v: flights.getVertexSet()) {
+		v->setIndegree(0);
+	}
+	for (auto v: flights.getVertexSet()) {
+		for (auto e: v->getAdj()) {
+			auto w = e.getDest();
+			w->setIndegree(w->getIndegree() + 1);
+		}
+	}
+}
 
 
 // ========================================================================================
@@ -65,9 +75,11 @@ std::array<unsigned, 3> Data::countAll() {
 
 Vertex<Airport, Airline*>* Data::greatestAirport(unsigned int k) {
     std::vector<Vertex<Airport,Airline*>*> v = flights.getVertexSet();
+	calculateIncomingFlights();
+
     std::sort(v.begin(), v.end(),
               [](Vertex<Airport,Airline*>* a, Vertex<Airport,Airline*>* b) {
-        return a->getAdj().size() > b->getAdj().size();
+        return a->getAdj().size() + a->getIndegree() > b->getAdj().size() + b->getIndegree();
     });
 
     return v[k];

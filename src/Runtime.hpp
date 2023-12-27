@@ -6,17 +6,20 @@
 
 class Runtime {
 private:
-  Data *data;
+	Data *data;
 
-  void processArgs(std::vector<std::string> args);
-  
-  void countAll();
-  void displayAirport(std::vector<std::string> v);
-  void greatestAirport(int k);
+	void processArgs(std::vector<std::string> args);
+
+	void countAll();
+
+	void displayAirport(std::vector<std::string> v);
+
+	void greatestAirport(int k);
 
 public:
-  explicit Runtime(Data *data);
-  [[noreturn]] void run();
+	explicit Runtime(Data *data);
+
+	[[noreturn]] void run();
 
 
 };
