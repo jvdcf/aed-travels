@@ -30,7 +30,7 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
     Vertex<Airport,Airline*>* src = searchAirportByCode[source_code];
     Vertex<Airport,Airline*>* dst = searchAirportByCode[dest_code];
     Airline* air = &searchAirlines[airline_code];
-    float distance = src->getInfo().disToOther(dst->getInfo());
+    float distance = src->getInfo().distanceTo(dst->getInfo().getLatitude(), dst->getInfo().getLatitude());
     auto tmp = src->getAdj();
     tmp.push_back(Edge<Airport,Airline*>(dst, distance, air));
     src->setAdj(tmp);
@@ -46,8 +46,28 @@ std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
   return searchAirlines;
 }
 
+std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(std::string city) const {
+	std::vector<Vertex<Airport, Airline *> *> res;
+	for (auto v: flights.getVertexSet()) {
+		if (v->getInfo().getCity() == city) {
+			res.push_back(v);
+		}
+	}
+	return res;
+}
 
-
+Vertex<Airport, Airline *> *Data::nearestAirport(float latitude, float longitude) const {
+	Vertex<Airport, Airline *> * res = flights.getVertexSet()[0];
+	float minDis = res->getInfo().distanceTo(latitude, longitude);
+	for (unsigned i = 1; i < flights.getVertexSet().size(); ++i) {
+		float dis = flights.getVertexSet()[i]->getInfo().distanceTo(latitude, longitude);
+		if (dis < minDis) {
+			minDis = dis;
+			res = flights.getVertexSet()[i];
+		}
+	}
+	return res;
+}
 
 // ========================================================================================
 
