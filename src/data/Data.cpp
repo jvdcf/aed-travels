@@ -109,23 +109,44 @@ int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 		return a->getInfo().getCode() < b->getInfo().getCode();
 	});
 
-	int distanceTable[v.size()][v.size()];
+/*
+	for (unsigned i = 0; i < v.size(); ++i) {
+		std::cout << v[i]->getInfo().getCode() << std::endl;
+	}
+*/
+
+	// int distanceTable[v.size()][v.size()];
+	// std::array<std::array<int, v.size()>, v.size()> distanceTable;
+/*
+	std::vector<std::vector<int>> distanceTable;
+	distanceTable.resize(v.size());
+	for (unsigned i = 0; i < v.size(); ++i) {
+		distanceTable[i].resize(v.size());
+	}
+*/
+	int *distanceTable = new int[v.size() * v.size()];
 	int max = 0;
 	for (unsigned i = 0; i < v.size(); ++i) {
 		for (unsigned j = 0; j < v.size(); ++j) {
-			distanceTable[i][j] = shortestPath(v[i], v[j]);
-			if (distanceTable[i][j] > max) {
+			distanceTable[i * v.size() + j] = shortestPath(v[i], v[j]);
+			if (distanceTable[i * v.size() + j] > max) {
 				origin.clear();
 				destination.clear();
-				max = distanceTable[i][j];
+				max = distanceTable[i * v.size() + j];
 				origin.push_back(v[i]);
 				destination.push_back(v[j]);
-			} else if (distanceTable[i][j] == max) {
+			} else if (distanceTable[i * v.size() + j] == max) {
 				origin.push_back(v[i]);
 				destination.push_back(v[j]);
 			}
 		}
 	}
+
+/*
+	for (unsigned i = 0; i < origin.size(); ++i) {
+		std::cout << origin[i]->getInfo().getCodeStr() << " --> " << destination[i]->getInfo().getCodeStr();
+	}
+*/
 
 	return max;
 }
