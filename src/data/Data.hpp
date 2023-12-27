@@ -30,6 +30,8 @@ public:
 
   std::array<unsigned, 3> countAll();
 
+  std::vector<Vertex<Airport, Airline *> *> shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airport, Airline *> *>destinations) const;
+
   // TODO
 };
 
