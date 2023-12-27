@@ -27,7 +27,7 @@ public:
     float disToOther(const Airport& o) const;
     static uint16_t codeToHash(const std::string& code);
     static std::string codeToString(uint16_t code);
-    bool operator==(const Airport& other); 
+    bool operator==(const Airport& other) const;
 };
 
 #endif //AED2324_PRJ2_G23_AIRPORT_HPP
