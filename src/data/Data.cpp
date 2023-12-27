@@ -65,66 +65,59 @@ std::array<unsigned, 3> Data::countAll() {
 	return {airportsCount, airlinesCount, flightsCount};
 }
 
-int Data::distance(Vertex<Airport, Airline *> *origin, Vertex<Airport, Airline *> *destination) const {
-	for (auto v: flights.getVertexSet()) {
-		v->setVisited(false);
-	}
+template<typename T, typename U>
+int shortestPath(const Graph<T, U> &g, Vertex<T, U>* source, vector<Vertex<T, U> *> &destinations) {
+    int depth = 0;
+    for (auto v: g.getVertexSet()) {
+        v->setVisited(false);
+    }
+    queue<Vertex<T, U>*> q;
+    queue<Vertex<T, U>*> next;
+    q.push(source);
+    source->setVisited(true);
 
-	int res = 0;
-	queue<Vertex<Airport, Airline *> *> q;
-	q.push(origin);
-	int countThisLevel = 1;
-	origin->setVisited(true);
+    while (!q.empty()) {
+        auto v = q.front();
+        q.pop();
+        destinations.push_back(v);
 
-	while (!q.empty()) {
-		auto v = q.front();
-		q.pop();
-		countThisLevel--;
+        for (auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if ( ! w->isVisited() ) {
+                next.push(w);
 
-		if (v->getInfo() == destination->getInfo()) {
-			return res;
-		} else {
-			for (auto e: v->getAdj()) {
-				auto w = e.getDest();
-				if (!w->isVisited()) {
-					w->setVisited(true);
-					q.push(w);
-				}
-			}
-		}
+                w->setVisited(true);
+            }
+        }
 
-		if (countThisLevel == 0) {
-			countThisLevel = (int) q.size();
-			res++;
-		}
-	}
+        if (q.empty() && !next.empty()) {
+            depth++;
+            swap(q, next);
+            destinations.clear();
+        }
+    }
 
-	return -1;
+    return depth;
 }
 
 int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 				  std::vector<Vertex<Airport, Airline *> *> &destination) const {
-  std::vector<Vertex<Airport, Airline *> *> v = flights.getVertexSet();
-  std::sort(v.begin(), v.end(), [](Vertex<Airport, Airline *> *a, Vertex<Airport, Airline *> *b) {
-		return a->getInfo().getCode() < b->getInfo().getCode();
-	});
-  
-	int max = 0;
-	for (unsigned i = 0; i < v.size(); ++i) {
-		for (unsigned j = 0; j < v.size(); ++j) {
-			int dist = distance(v[i], v[j]);
-			if (dist > max) {
-				origin.clear();
-				destination.clear();
-				max = dist;
-				origin.push_back(v[i]);
-				destination.push_back(v[j]);
-			} else if (dist == max) {
-				origin.push_back(v[i]);
-				destination.push_back(v[j]);
-			}
-		}
-	}
+    int maxDepth = 0;
+    for (auto v: flights.getVertexSet()) {
+        vector<Vertex<Airport, Airline *> *> destinations;
+        int depth = shortestPath(flights, v, destinations);
+        if (depth > maxDepth) {
+            maxDepth = depth;
+            origin.clear();
+            destination.clear();
+        }
+        if (depth >= maxDepth) {
+            for (auto d: destinations) {
+                origin.push_back(v);
+                destination.push_back(d);
+            }
+        }
+    }
 
-	return max;
+    return maxDepth;
 }
