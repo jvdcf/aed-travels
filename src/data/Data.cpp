@@ -13,6 +13,9 @@ Data::Data() {
     this->searchAirlines = unordered_map<uint16_t, Airline>();
 }
 
+
+// Loaders -------------------------------------------------------------------------------------------------------------
+
 void Data::loadAirport(Airport &airport) {
     auto v_ptr = flights.addVertex(airport);
     if (v_ptr == nullptr) {
@@ -36,16 +39,53 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
     flights.addEdge(src, dst, distance, air);
 }
 
-std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> Data::getAirportsByCode() const {
+
+// Getters -------------------------------------------------------------------------------------------------------------
+
+const std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> &Data::getAirportsByCode() const {
     return searchAirportByCode;
 }
 
-std::unordered_map<std::string, Vertex<Airport, Airline *> *> Data::getAirportsByName() const {
+const std::unordered_map<std::string, Vertex<Airport, Airline *> *> &Data::getAirportsByName() const {
     return searchAirportByName;
 }
 
-std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
+const std::unordered_map<uint16_t, Airline> &Data::getAirlines() const {
     return searchAirlines;
+}
+
+const vector<Vertex<Airport, Airline *> *> &Data::getAirportFilterSet() const {
+	return airportFilterSet;
+}
+
+const vector<Airline *> &Data::getAirlineFilterSet() const {
+	return airlineFilterSet;
+}
+
+
+// Methods -------------------------------------------------------------------------------------------------------------
+
+bool Data::addAirportToFilter(const std::string& code) {
+	uint16_t codeHash = Airport::codeToHash(code);
+	if (!searchAirportByCode.contains(codeHash)) {
+		return false;
+	}
+	airportFilterSet.push_back(searchAirportByCode.at(codeHash));
+	return true;
+}
+
+bool Data::addAirlineToFilter(const std::string &code) {
+	uint16_t codeHash = Airline::codeToHash(code);
+	if (!searchAirlines.contains(codeHash)) {
+		return false;
+	}
+	airlineFilterSet.push_back(&searchAirlines.at(codeHash));
+	return true;
+}
+
+void Data::clearFilters() {
+	airportFilterSet.clear();
+	airlineFilterSet.clear();
 }
 
 std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(const std::string &city) const {
@@ -57,8 +97,6 @@ std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(const std::string &
     }
     return res;
 }
-
-// ========================================================================================
 
 std::array<unsigned, 3> Data::countAll() {
     unsigned airportsCount = searchAirportByCode.size();
@@ -250,9 +288,15 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
             return path;
         } else {
             for (auto e: v->getAdj()) {
+				if (std::find(airlineFilterSet.begin(), airlineFilterSet.end(), e.getInfo()) == airlineFilterSet.end())  {
+					continue; // If this flight is not from an airline in the filter, it is ignored.
+				}
                 auto w = e.getDest();
                 if (!w->isVisited()) {
                     w->setVisited(true);
+					if (std::find(airportFilterSet.begin(), airportFilterSet.end(), w) != airportFilterSet.end()) {
+						continue; // If this airport is in the filter, it is ignored.
+					}
                     q.push(w);
                     previous[w->getInfo().getCode()] = v->getInfo().getCode();
                 }

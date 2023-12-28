@@ -66,6 +66,11 @@ void Runtime::processArgs(vector<std::string> args) {
                   << "    best_flight -ac|-an|-ci|-co <source> -ac|-an|-ci|-co <destination>\n"
                   << "        Displays the best flight options for a trip.\n"
                   << "        The arguments can be an Airport Code (-ac), an Airport Name (-an), a City (-ci) or the coordinate values (-co) as <latitude> <longitude>.\n\n"
+				  << "    filters -a|--add|-c|--clear|-d|--display \n"
+				  << "        Add (-a | --add), clear (-c | --clear) or display (-d | --display) filters to be used in the command best_flight\n"
+				  << "        When adding filters, be sure to use the flags -ap for Airports and/or -al for Airlines preceding the codes of the Airports/Airlines\n"
+				  << "        Once an Airport is added to the filter, the command best_flights will NOT show flights that pass through those Airports\n"
+				  << "        On the contrary, once an Airline is added to the filter, the command best_flights will ONLY show flights that are operated by that Airline\n\n"
                   << "    max_trip\n"
                   << "        Displays the flight trip(s) with the greatest number of stops.\n\n";
         return;
@@ -197,6 +202,23 @@ void Runtime::processArgs(vector<std::string> args) {
         bestFlight(args);
         return;
     }
+
+	if (args[0] == "filters") {
+		if (args.size() <= 1) {
+			std::cerr << "ERROR: there are not enough arguments" << std::endl;
+			return;
+		}
+		if (args[1] == "-a" or args[1] == "--add") {
+			// TODO
+		}
+		if (args[1] == "-c" or args[1] == "--clear") {
+			data->clearFilters();
+		}
+		if (args[1] == "-d" or args[1] == "--display") {
+			// TODO
+		}
+		return;
+	}
 
     if (args[0] == "max_trip") {
         maxTrip();
