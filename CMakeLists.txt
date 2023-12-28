@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Doxygen Build
 find_package(Doxygen)
-if(DOXYGEN_FOUND)
+if (DOXYGEN_FOUND)
     set(BUILD_DOC_DIR "${CMAKE_SOURCE_DIR}/docs/output")
-    if(NOT EXISTS "${BUILD_DOC_DIR}")
+    if (NOT EXISTS "${BUILD_DOC_DIR}")
         file(MAKE_DIRECTORY "${BUILD_DOC_DIR}")
-    endif()
+    endif ()
 
     set(DOXYGEN_IN "${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile")
     set(DOXYGEN_OUT "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
@@ -21,9 +21,9 @@ if(DOXYGEN_FOUND)
             WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             COMMENT "Generating API documentation with Doxygen"
             VERBATIM)
-else(DOXYGEN_FOUND)
+else (DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
-endif(DOXYGEN_FOUND)
+endif (DOXYGEN_FOUND)
 
 # Project build
 add_executable(fins main.cpp
@@ -32,5 +32,4 @@ add_executable(fins main.cpp
         src/data/Airline.cpp src/data/Airline.hpp
         src/data/Data.cpp src/data/Data.hpp
         src/Parser.cpp src/Parser.hpp
-        src/Runtime.cpp src/Runtime.hpp
-        src/Utils.hpp src/Utils.cpp)
+        src/Runtime.cpp src/Runtime.hpp)

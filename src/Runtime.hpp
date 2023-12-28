@@ -6,30 +6,30 @@
 
 class Runtime {
 private:
-	Data *data;
+    Data *data;
 
-	void processArgs(std::vector<std::string> args);
+    void processArgs(std::vector<std::string> args);
 
-	void countAll();
+    void countAll();
 
-	void displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigned k);
+    void displayAirport(Vertex<Airport, Airline *> *v_ap, bool full, unsigned k);
 
-	void displayAirline(Airline &al);
+    void displayAirline(Airline &al);
 
-	void displayCity(const std::string& city);
+    void displayCity(const std::string &city);
 
-	void essentialAirports();
+    void essentialAirports();
 
-	void greatestAirport(int k);
+    void greatestAirport(int k);
 
-  void bestFlight(std::vector<std::string> args);
+    void bestFlight(std::vector<std::string> args);
 
-	void maxTrip();
+    void maxTrip();
 
 public:
-	explicit Runtime(Data *data);
+    explicit Runtime(Data *data);
 
-	[[noreturn]] void run();
+    [[noreturn]] void run();
 };
 
 #endif // AED2324_PRJ2_G23_RUNTIME_HPP

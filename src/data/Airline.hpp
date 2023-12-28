@@ -7,20 +7,28 @@
 
 class Airline {
 private:
-    uint16_t    code;
+    uint16_t code;
     std::string name;
     std::string alias;
     std::string country;
 
 public:
-    Airline(const std::string& code, const std::string& name, const std::string& alias, const std::string& country);
+    Airline(const std::string &code, const std::string &name, const std::string &alias, const std::string &country);
+
     Airline();
+
     std::string getCodeStr() const;
-    uint16_t    getCode() const;
+
+    uint16_t getCode() const;
+
     std::string getName() const;
+
     std::string getAlias() const;
+
     std::string getCountry() const;
-    static uint16_t codeToHash(const std::string& code);
+
+    static uint16_t codeToHash(const std::string &code);
+
     static std::string codeToString(uint16_t code);
 
 };
