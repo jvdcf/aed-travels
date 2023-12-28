@@ -1,9 +1,5 @@
 #include "Airport.hpp"
-#include "Data.hpp"
 #include <cmath>
-#include <cstdint>
-#include <math.h>
-#include <valarray>
 
 Airport::Airport(const std::string& code, const std::string& name, const std::string& city, const std::string& country,
                  float latitude, float longitude) {

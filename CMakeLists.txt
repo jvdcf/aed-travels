@@ -32,5 +32,4 @@ add_executable(fins main.cpp
         src/data/Airline.cpp src/data/Airline.hpp
         src/data/Data.cpp src/data/Data.hpp
         src/Parser.cpp src/Parser.hpp
-        src/Runtime.cpp src/Runtime.hpp
-        src/Utils.hpp src/Utils.cpp)
+        src/Runtime.cpp src/Runtime.hpp)

@@ -2,7 +2,6 @@
 #include "data/Airline.hpp"
 #include "data/Airport.hpp"
 #include "data/Data.hpp"
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <ostream>
@@ -10,7 +9,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> split_csv(std::string s) {
+std::vector<std::string> split_csv(const std::string& s) {
   std::stringstream ss(s);
   std::vector<std::string> res;
   std::string buf;

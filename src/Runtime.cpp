@@ -2,7 +2,6 @@
 #include "data/Airline.hpp"
 #include "data/Airport.hpp"
 #include <array>
-#include <cstdint>
 #include <exception>
 #include <iostream>
 #include <ostream>
@@ -370,7 +369,7 @@ void Runtime::bestFlight(std::vector<std::string> args) {
 		} else if (args[i] == "-ci") { // ------------------------------------------------------------------------------
 			++i;
 			auto buf = data->searchByCity(args[i]);
-			if (buf.size() == 0) {
+			if (buf.empty()) {
 				std::cerr << "ERROR: " << args[i] << " is not a City name." << std::endl;
 				return;
 			}

@@ -1,6 +1,5 @@
 #include "Airline.hpp"
 #include <cmath>
-#include <cstdint>
 
 Airline::Airline(const std::string& code, const std::string& name, const std::string& alias, const std::string& country) {
     this->code = codeToHash(code);

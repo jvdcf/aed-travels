@@ -17,8 +17,6 @@ private:
 	std::unordered_map<std::string, Vertex<Airport, Airline *> *> searchAirportByName;
 	std::unordered_map<uint16_t, Airline> searchAirlines;
 
-	void calculateIncomingFlights();
-
 public:
 	Data();
 

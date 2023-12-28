@@ -32,7 +32,7 @@ class Vertex {
     void addEdge(Vertex<T,U> *dest, double w, U info);
     bool removeEdgeTo(Vertex<T,U> *d);
 public:
-    Vertex(T in);
+    explicit Vertex(T in);
     T getInfo() const;
     void setInfo(T in);
     bool isVisited() const;

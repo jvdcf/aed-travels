@@ -1,13 +1,9 @@
 #include "lib/Graph.h"
 #include "src/Parser.hpp"
 #include "src/Runtime.hpp"
-#include "src/Utils.hpp"
 #include "src/data/Airline.hpp"
-#include "src/data/Airport.hpp"
 #include "src/data/Data.hpp"
-
 #include <iostream>
-#include <unordered_set>
 
 void printError() {
     std::cerr
