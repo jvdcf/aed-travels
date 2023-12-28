@@ -65,8 +65,8 @@ void Runtime::processArgs(vector<std::string> args) {
 
   if (args[0] == "display_airport") {
     if (args.size() <= 1 | args.size() > 5) {
-        std::cerr << "ERROR   : " << "display_airport takes up to 4 arguments." << std::endl;
-      return;
+        std::cerr << "ERROR   : " << "display_airport takes at least one and up to 4 arguments." << std::endl;
+        return;
     }
 
     Vertex<Airport, Airline*> *v_ap;
