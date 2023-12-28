@@ -29,13 +29,11 @@ void Data::loadAirline(Airline &airline) {
 }
 
 void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline_code) {
-	Vertex<Airport, Airline *> *src = searchAirportByCode[source_code];
-	Vertex<Airport, Airline *> *dst = searchAirportByCode[dest_code];
-	Airline *air = &searchAirlines[airline_code];
-	float distance = src->getInfo().disToOther(dst->getInfo());
-	auto tmp = src->getAdj();
-	tmp.push_back(Edge<Airport, Airline *>(dst, distance, air));
-	src->setAdj(tmp);
+  Vertex<Airport,Airline*>* src = searchAirportByCode[source_code];
+  Vertex<Airport,Airline*>* dst = searchAirportByCode[dest_code];
+  Airline* air = &searchAirlines[airline_code];
+  float distance = src->getInfo().disToOther(dst->getInfo());
+  flights.addEdge(src, dst, distance, air);
 }
 
 std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> Data::getAirportsByCode() const {
@@ -49,9 +47,6 @@ std::unordered_map<std::string, Vertex<Airport, Airline *> *> Data::getAirportsB
 std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
 	return searchAirlines;
 }
-
-
-
 
 // ========================================================================================
 
@@ -196,4 +191,15 @@ bool stackContains(const std::stack<T> s, T elem) {
         tmp.pop();
     }
     return false;
+}
+
+Vertex<Airport, Airline*>* Data::greatestAirport(unsigned int k) {
+    std::vector<Vertex<Airport,Airline*>*> v = flights.getVertexSet();
+
+    std::sort(v.begin(), v.end(),
+              [](Vertex<Airport,Airline*>* a, Vertex<Airport,Airline*>* b) {
+        return a->getAdj().size() + a->getIndegree() > b->getAdj().size() + b->getIndegree();
+    });
+
+    return v[k];
 }

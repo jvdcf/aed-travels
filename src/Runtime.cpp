@@ -13,29 +13,29 @@
 Runtime::Runtime(Data *data) { this->data = data; }
 
 [[noreturn]] void Runtime::run() {
-	std::string in;
-	std::istringstream stream;
-	std::string buf;
-	std::vector<std::string> line;
+    std::string in;
+    std::istringstream stream;
+    std::string buf;
+    std::vector<std::string> line;
 
-	std::cout << "Welcome to ___. Type 'help' to learn more." << std::endl;
+    std::cout << "Welcome to ___. Type 'help' to learn more." << std::endl;
 
-	while (true) {
-		std::cout << "> ";
-		getline(std::cin, in);
-		stream = std::istringstream(in);
-		while (std::getline(stream, buf, ' ')) {
-			line.push_back(buf);
-			buf.clear();
-		}
-		if (line.empty()) {
-			in.clear();
-			continue;
-		}
-		processArgs(line);
-		in.clear();
-		line.clear();
-	}
+    while (true) {
+        std::cout << "> ";
+        getline(std::cin, in);
+        stream = std::istringstream(in);
+        while (std::getline(stream, buf, ' ')) {
+            line.push_back(buf);
+            buf.clear();
+        }
+        if (line.empty()) {
+            in.clear();
+            continue;
+        }
+        processArgs(line);
+        in.clear();
+        line.clear();
+    }
 }
 
 void Runtime::processArgs(vector<std::string> args) {
@@ -58,6 +58,8 @@ void Runtime::processArgs(vector<std::string> args) {
           << "        Displays information about an airline and their number of flights.\n\n"
           << "    essential_airports: takes 0 arguments:  essential_airports\n"
           << "        Displays all essential airports codes to the network's circulation capability.\n\n"
+          << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
+          << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n"
 				  << "    max_trip:       takes 0 arguments:      max_trip\n"
 				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n"
 	    ;
@@ -101,6 +103,28 @@ void Runtime::processArgs(vector<std::string> args) {
       essentialAirports();
       return;
   }
+  
+  if (args[0] == "greatest_airport") {
+        if (args.size() == 2 || args.size() > 3) {
+            std::cerr << "ERROR   : " << "greatest_airport takes either 0 or 2 arguments." << std::endl;
+            return;
+        }
+        if (args.size() == 1) return greatestAirport(1);
+        if (args[1] == "-n") {
+            int k;
+            try {
+                k = std::stoi(args[2]);
+            } catch (exception &e) {
+                std::cerr << "ERROR   : " << "argument " << args[2] << " is not a valid integer!" << std::endl;
+                return;
+            }
+            greatestAirport(k);
+            return;
+        } else {
+            std::cerr << "ERROR   : " << "unknown argument " << args[1] << "." << std::endl;
+            return;
+        }
+    }
 
 	if (args[0] == "max_trip") {
 		maxTrip();
@@ -205,6 +229,17 @@ void Runtime::essentialAirports() {
     }
 
     std::cout << std::endl << std::endl;
+}
+
+void Runtime::greatestAirport(int k) {
+    auto res = data->greatestAirport(k);
+    std::string name = res->getInfo().getName();
+    uint16_t code = res->getInfo().getCode();
+    unsigned flights = res->getAdj().size();
+
+    std::cout << "Airport " << name << " (" << Airport::codeToString(code) << ')'
+              << " with " << flights << " flights"
+              << std::endl << std::endl;
 }
   
 void Runtime::maxTrip() {
