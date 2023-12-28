@@ -25,7 +25,7 @@ class Vertex {
     vector<Edge<T,U>> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
     bool processing;       // auxiliary field
-    int indegree = 0;      // auxiliary field
+    int indegree;          // auxiliary field
     int num;               // auxiliary field
     int low;               // auxiliary field
 
@@ -105,7 +105,13 @@ public:
 /****************** Provided constructors and functions ********************/
 
 template <class T,class U>
-Vertex<T,U>::Vertex(T in): info(in) {}
+Vertex<T,U>::Vertex(T in): info(in) {
+    visited = false;
+    processing = false;
+    indegree = 0;
+    num = 0;
+    low = 0;
+}
 
 template <class T, class U>
 Edge<T,U>::Edge(Vertex<T,U> *d, double w, U i): dest(d), weight(w), info(i) {}
