@@ -19,7 +19,8 @@ Runtime::Runtime(Data *data) { this->data = data; }
 	std::string buf;
 	std::vector<std::string> line;
 
-	std::cout << "Welcome to ___. Type 'help' to learn more." << std::endl;
+	std::cout << "Welcome to FINS: Fins Is Not Skyscanner." << std::endl
+              << "Type 'help' to learn more." << std::endl;
 
 	while (true) {
 		std::cout << "> ";

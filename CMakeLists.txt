@@ -26,7 +26,7 @@ else(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 # Project build
-add_executable(AED2324_PRJ2_G23 main.cpp
+add_executable(fins main.cpp
         lib/Graph.h
         src/data/Airport.cpp src/data/Airport.hpp
         src/data/Airline.cpp src/data/Airline.hpp
