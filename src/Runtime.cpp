@@ -66,7 +66,7 @@ void Runtime::processArgs(vector<std::string> args) {
                   << "    best_flight -ac|-an|-ci|-co <source> -ac|-an|-ci|-co <destination>\n"
                   << "        Displays the best flight options for a trip.\n"
                   << "        The arguments can be an Airport Code (-ac), an Airport Name (-an), a City (-ci) or the coordinate values (-co) as <latitude> <longitude>.\n\n"
-				  << "    filters -a|--add|-c|--clear|-d|--display \n"
+				  << "    filters -a|--add|-c|--clear|-d|--display [-ap <airport_codes>] [-al <airline_codes>]\n"
 				  << "        Add (-a | --add), clear (-c | --clear) or display (-d | --display) filters to be used in the command best_flight\n"
 				  << "        When adding filters, be sure to use the flags -ap for Airports and/or -al for Airlines preceding the codes of the Airports/Airlines\n"
 				  << "        Once an Airport is added to the filter, the command best_flights will NOT show flights that pass through those Airports\n"
@@ -209,7 +209,7 @@ void Runtime::processArgs(vector<std::string> args) {
 			return;
 		}
 		if (args[1] == "-a" or args[1] == "--add") {
-			// TODO
+			addFilters(args);
 		}
 		if (args[1] == "-c" or args[1] == "--clear") {
 			data->clearFilters();
@@ -230,7 +230,11 @@ void Runtime::processArgs(vector<std::string> args) {
               << std::endl;
 }
 
-// ====================================================================================================================
+// =====================================================================================================================
+
+// =====================================================================================================================
+
+// =====================================================================================================================
 
 void Runtime::countAll() {
     std::array<unsigned, 3> res = data->countAll();
@@ -443,6 +447,39 @@ void Runtime::bestFlight(std::vector<std::string> args) {
     for (unsigned i = 1; i < bf.size(); i++) {
         std::cout << "  " << bf[i - 1] << " --> " << bf[i] << std::endl;
     }
+}
+
+void Runtime::addFilters(std::vector<std::string> args) {
+	bool flagAP = false;
+	bool flagAL = false;
+	for (unsigned i = 2; i < args.size(); ++i) {
+		if (args[i] == "-ap") {
+			flagAP = true;
+			flagAL = false;
+			continue;
+		}
+		if (args[i] == "-al") {
+			flagAL = true;
+			flagAP = false;
+			continue;
+		}
+		if (flagAP) {
+			if (!data->addAirportToFilter(args[i])) {
+				std::cerr << "ERROR: " << args[i] << " is not a valid Airport code." << std::endl;
+				return;
+			}
+			continue;
+		}
+		if (flagAL) {
+			if (!data->addAirlineToFilter(args[i])) {
+				std::cerr << "ERROR: " << args[i] << " is not a valid Airline code." << std::endl;
+				return;
+			}
+			continue;
+		}
+		std::cerr << "ERROR: The flag -ap must precede the Airport codes and the flag -al must precede the Airline codes." << std::endl;
+		return;
+	}
 }
 
 void Runtime::maxTrip() {
