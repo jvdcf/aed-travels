@@ -37,6 +37,8 @@ public:
   
 	std::array<unsigned, 3> countAll();
   
+  unsigned int destinationsAtKStops(Vertex<Airport, Airline *> *v_ap, unsigned int k);
+  
   unsigned flightsPerAirline(uint16_t airline_code);
   
   std::unordered_set<uint16_t> essentialAirports();
