@@ -59,7 +59,7 @@ void Runtime::processArgs(vector<std::string> args) {
           << "    essential_airports: takes 0 arguments:  essential_airports\n"
           << "        Displays all essential airports codes to the network's circulation capability.\n\n"
           << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
-          << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n";
+          << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n"
 				  << "    max_trip:       takes 0 arguments:      max_trip\n"
 				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n"
 	    ;
