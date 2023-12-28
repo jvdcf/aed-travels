@@ -18,5 +18,5 @@ make -j$(nproc)
 
 clear
 echo -e "${txtgrn}[3/3] Executing AED2324_PRJ2_G23 ${txtwht}"
-rlwrap ./finsc -ap ../dataset/airports.csv -al ../dataset/airlines.csv -f ../dataset/flights.csv
+rlwrap ./fins -ap ../dataset/airports.csv -al ../dataset/airlines.csv -f ../dataset/flights.csv
 
