@@ -33,11 +33,10 @@ public:
 	std::unordered_map<std::string, Vertex<Airport, Airline *> *> getAirportsByName() const;
 
 	std::unordered_map<uint16_t, Airline> getAirlines() const;
-
-	std::vector<Vertex<Airport, Airline *> *> searchByCity(std::string city) const;
-
-	Vertex<Airport, Airline *> * nearestAirport(float latitude, float longitude) const;
   
+  Vertex<Airport, Airline *> * nearestAirport(float latitude, float longitude) const;
+
+	std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
   
 	std::array<unsigned, 3> countAll();
   

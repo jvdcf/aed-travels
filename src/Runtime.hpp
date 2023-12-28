@@ -11,11 +11,19 @@ private:
 	void processArgs(std::vector<std::string> args);
 
 	void countAll();
+
 	void displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigned k);
-  void displayAirline(Airline &al);
-  void essentialAirports();
-  void greatestAirport(int k);
+
+	void displayAirline(Airline &al);
+
+	void displayCity(const std::string& city);
+
+	void essentialAirports();
+
+	void greatestAirport(int k);
+
   void bestFlight(std::vector<std::string> args);
+
 	void maxTrip();
 
 public:
