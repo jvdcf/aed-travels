@@ -26,6 +26,8 @@ private:
 
 	void addFilters(std::vector<std::string> args);
 
+	void displayFilters();
+
     void maxTrip();
 
 public:

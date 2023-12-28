@@ -215,7 +215,7 @@ void Runtime::processArgs(vector<std::string> args) {
 			data->clearFilters();
 		}
 		if (args[1] == "-d" or args[1] == "--display") {
-			// TODO
+			displayFilters();
 		}
 		return;
 	}
@@ -479,6 +479,17 @@ void Runtime::addFilters(std::vector<std::string> args) {
 		}
 		std::cerr << "ERROR: The flag -ap must precede the Airport codes and the flag -al must precede the Airline codes." << std::endl;
 		return;
+	}
+}
+
+void Runtime::displayFilters() {
+	if (!data->getAirportFilterSet().empty()) std::cout << "Airports to be ignored:" << std::endl;
+	for (auto v: data->getAirportFilterSet()) {
+		std::cout << "  " << v->getInfo().getCodeStr() << " - " << v->getInfo().getName() << std::endl;
+	}
+	if (!data->getAirlineFilterSet().empty()) std::cout << "Accessible Airlines:" << std::endl;
+	for (auto v: data->getAirlineFilterSet()) {
+		std::cout << "  " << v->getCodeStr() << " - " << v->getName() << std::endl;
 	}
 }
 
