@@ -32,7 +32,7 @@ void Data::loadFlight(uint16_t source_code, uint16_t dest_code, uint16_t airline
   Vertex<Airport,Airline*>* src = searchAirportByCode[source_code];
   Vertex<Airport,Airline*>* dst = searchAirportByCode[dest_code];
   Airline* air = &searchAirlines[airline_code];
-  float distance = src->getInfo().disToOther(dst->getInfo());
+  float distance = src->getInfo().distanceTo(dst->getInfo().getLatitude(), dst->getInfo().getLongitude());
   flights.addEdge(src, dst, distance, air);
 }
 
@@ -72,7 +72,7 @@ std::array<unsigned, 3> Data::countAll() {
 }
 
 template<typename T, typename U>
-int shortestPath(const Graph<T, U> &g, Vertex<T, U>* source, vector<Vertex<T, U> *> &destinations) {
+int bottomOfBFS(const Graph<T, U> &g, Vertex<T, U>* source, vector<Vertex<T, U> *> &destinations) {
     int depth = 0;
     for (auto v: g.getVertexSet()) {
         v->setVisited(false);
@@ -111,7 +111,7 @@ int Data::maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
     int maxDepth = 0;
     for (auto v: flights.getVertexSet()) {
         vector<Vertex<Airport, Airline *> *> destinations;
-        int depth = shortestPath(flights, v, destinations);
+        int depth = bottomOfBFS(flights, v, destinations);
         if (depth > maxDepth) {
             maxDepth = depth;
             origin.clear();

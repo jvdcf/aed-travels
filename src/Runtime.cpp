@@ -271,90 +271,91 @@ void Runtime::greatestAirport(int k) {
 }
 
 void Runtime::bestFlight(std::vector<std::string> args) {
-	//TODO
-	std::vector<Vertex<Airport, Airline *> *> sources;
-	std::vector<Vertex<Airport, Airline *> *> destinations;
+    //TODO
+    std::vector<Vertex<Airport, Airline *> *> sources;
+    std::vector<Vertex<Airport, Airline *> *> destinations;
 
-	for (unsigned i = 1; i < args.size(); ++i) {
-		if (args[i] == "-ac") { // -------------------------------------------------------------------------------------
-			++i;
-			try {
-				if (sources.empty()) {
-					sources.push_back(data->getAirportsByCode().at(Airport::codeToHash(args[i])));
-				} else {
-					destinations.push_back(data->getAirportsByCode().at(Airport::codeToHash(args[i])));
-				}
-			} catch (exception &exception) {
-				std::cerr << "ERROR: " << args[i] << " is not an Airport code." << std::endl;
-				return;
-			}
-			continue;
-		} else if (args[i] == "-an") { // ------------------------------------------------------------------------------
-			++i;
-			try {
-				if (sources.empty()) {
-					sources.push_back(data->getAirportsByName().at(args[i]));
-				} else {
-					destinations.push_back(data->getAirportsByName().at(args[i]));
-				}
-			} catch (exception &exception) {
-				std::cerr << "ERROR: " << args[i] << " is not an Airport name." << std::endl;
-				return;
-			}
-			continue;
-		} else if (args[i] == "-ci") { // ------------------------------------------------------------------------------
-			++i;
-			auto buf = data->searchByCity(args[i]);
-			if (buf.size() == 0) {
-				std::cerr << "ERROR: " << args[i] << " is not a City name." << std::endl;
-				return;
-			}
-			if (sources.empty()) {
-				sources = buf;
-			} else {
-				destinations = buf;
-			}
-		} else if (args[i] == "-co") { // ------------------------------------------------------------------------------
-			++i;
-			float latitude, longitude;
-			try {
-				latitude = std::stof(args[i]);
-			} catch (exception &e) {
-				std::cerr << "ERROR: " << args[i] << " is not a valid latitude." << std::endl;
-				return;
-			}
-			++i;
-			try {
-				longitude = std::stof(args[i]);
-			} catch (exception &e) {
-				std::cerr << "ERROR: " << args[i] << " is not a valid longitude." << std::endl;
-				return;
-			}
+    for (unsigned i = 1; i < args.size(); ++i) {
+        if (args[i] == "-ac") { // -------------------------------------------------------------------------------------
+            ++i;
+            try {
+                if (sources.empty()) {
+                    sources.push_back(data->getAirportsByCode().at(Airport::codeToHash(args[i])));
+                } else {
+                    destinations.push_back(data->getAirportsByCode().at(Airport::codeToHash(args[i])));
+                }
+            } catch (exception &exception) {
+                std::cerr << "ERROR: " << args[i] << " is not an Airport code." << std::endl;
+                return;
+            }
+            continue;
+        } else if (args[i] == "-an") { // ------------------------------------------------------------------------------
+            ++i;
+            try {
+                if (sources.empty()) {
+                    sources.push_back(data->getAirportsByName().at(args[i]));
+                } else {
+                    destinations.push_back(data->getAirportsByName().at(args[i]));
+                }
+            } catch (exception &exception) {
+                std::cerr << "ERROR: " << args[i] << " is not an Airport name." << std::endl;
+                return;
+            }
+            continue;
+        } else if (args[i] == "-ci") { // ------------------------------------------------------------------------------
+            ++i;
+            auto buf = data->searchByCity(args[i]);
+            if (buf.size() == 0) {
+                std::cerr << "ERROR: " << args[i] << " is not a City name." << std::endl;
+                return;
+            }
+            if (sources.empty()) {
+                sources = buf;
+            } else {
+                destinations = buf;
+            }
+        } else if (args[i] == "-co") { // ------------------------------------------------------------------------------
+            ++i;
+            float latitude, longitude;
+            try {
+                latitude = std::stof(args[i]);
+            } catch (exception &e) {
+                std::cerr << "ERROR: " << args[i] << " is not a valid latitude." << std::endl;
+                return;
+            }
+            ++i;
+            try {
+                longitude = std::stof(args[i]);
+            } catch (exception &e) {
+                std::cerr << "ERROR: " << args[i] << " is not a valid longitude." << std::endl;
+                return;
+            }
 
-			if (latitude < -90.0 or latitude > 90.0) {
-				std::cerr << "ERROR: " << args[i] << " is not a valid latitude." << std::endl;
-				return;
-			}
-			if (longitude < -180.0 or longitude > 180.0) {
-				std::cerr << "ERROR: " << args[i] << " is not a valid longitude." << std::endl;
-				return;
-			}
+            if (latitude < -90.0 or latitude > 90.0) {
+                std::cerr << "ERROR: " << args[i] << " is not a valid latitude." << std::endl;
+                return;
+            }
+            if (longitude < -180.0 or longitude > 180.0) {
+                std::cerr << "ERROR: " << args[i] << " is not a valid longitude." << std::endl;
+                return;
+            }
 
-			if (sources.empty()) {
-				sources.push_back(data->nearestAirport(latitude, longitude));
-			} else {
-				destinations.push_back(data->nearestAirport(latitude, longitude));
-			}
-		} else {
-			std::cerr << "ERROR: unknown argument " << args[i] << "." << std::endl;
-			return;
-		}
-	}
+            if (sources.empty()) {
+                sources.push_back(data->nearestAirport(latitude, longitude));
+            } else {
+                destinations.push_back(data->nearestAirport(latitude, longitude));
+            }
+        } else {
+            std::cerr << "ERROR: unknown argument " << args[i] << "." << std::endl;
+            return;
+        }
+    }
 
-	std::vector<std::string> bf = data->bestFlight(sources, destinations);
-	std::cout << "The best flight option is:" << std::endl;
-	for (unsigned i = 1; i < bf.size(); i++) {
-		std::cout << "  " << bf[i - 1] << " --> " << bf[i] << std::endl;
+    std::vector<std::string> bf = data->bestFlight(sources, destinations);
+    std::cout << "The best flight option is:" << std::endl;
+    for (unsigned i = 1; i < bf.size(); i++) {
+        std::cout << "  " << bf[i - 1] << " --> " << bf[i] << std::endl;
+    }
 }
   
 void Runtime::maxTrip() {
