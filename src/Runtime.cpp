@@ -212,9 +212,17 @@ void Runtime::processArgs(vector<std::string> args) {
 			addFilters(args);
 		}
 		if (args[1] == "-c" or args[1] == "--clear") {
+			if (args.size() > 2) {
+				std::cerr << "ERROR: Too much arguments!" << std::endl;
+				return;
+			}
 			data->clearFilters();
 		}
 		if (args[1] == "-d" or args[1] == "--display") {
+			if (args.size() > 2) {
+				std::cerr << "ERROR: Too much arguments!" << std::endl;
+				return;
+			}
 			displayFilters();
 		}
 		return;
