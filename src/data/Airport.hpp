@@ -24,7 +24,7 @@ public:
     std::string getCountry() const;
     float getLatitude() const;
     float getLongitude() const;
-    float disToOther(const Airport& o) const;
+    float distanceTo(float pLat, float pLon) const;
     static uint16_t codeToHash(const std::string& code);
     static std::string codeToString(uint16_t code);
     bool operator==(const Airport& other) const;
