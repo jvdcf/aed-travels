@@ -15,6 +15,7 @@ private:
   void displayAirline(Airline &al);
   void essentialAirports();
   void greatestAirport(int k);
+  void bestFlight(std::vector<std::string> args);
 	void maxTrip();
 
 public:
