@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <unordered_set>
 #include <algorithm>
 
 Data::Data() {
@@ -132,4 +133,67 @@ unsigned Data::flightsPerAirline(uint16_t code) {
         }
     }
     return count;
+}
+
+void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::unordered_set<uint16_t>& l, int &i);
+std::unordered_set<uint16_t> Data::essentialAirports() {
+    for (auto v: flights.getVertexSet()) {
+        v->setVisited(false);
+    }
+    std::unordered_set<uint16_t> res;
+    int index = 0;
+
+
+    for (auto v: flights.getVertexSet()) {
+        if (!v->isVisited()) {
+            stack<uint16_t> s;
+            dfs_art(&flights, v, s, res, index);
+        }
+    }
+    return res;
+
+}
+
+template <typename T>
+bool stackContains(std::stack<T> s, T elem);
+void dfs_art(Graph<Airport, Airline*>* g, Vertex<Airport, Airline*>* v, std::stack<uint16_t>& s, std::unordered_set<uint16_t>& l, int &i) {
+    int children = 0;
+    v->setLow(++i);
+    v->setNum(v->getLow());
+    v->setVisited(true);
+    s.push(v->getInfo().getCode());
+
+    for (const Edge<Airport, Airline*> e: v->getAdj()) {
+        Vertex<Airport, Airline*>* w = e.getDest();
+        if (!w->isVisited()) {                                               // Tree edge
+            children++;
+            dfs_art(g, w, s, l, i);
+            v->setLow(min(w->getLow(), v->getLow()));
+
+            if ((v->getNum() != 1) && (w->getLow() >= v->getNum())) {       // Articulation point
+                l.insert(v->getInfo().getCode());
+            }
+
+        } else if (stackContains(s, w->getInfo().getCode())) {                                                            // Back edge
+            v->setLow(min(w->getNum(), v->getLow()));
+        }
+    }
+
+    if ((v->getNum() == 1) && (children > 1)) {                             // Root special case
+        l.insert(v->getInfo().getCode());
+    }
+
+    s.pop();
+}
+
+template <typename T>
+bool stackContains(const std::stack<T> s, T elem) {
+    std::stack<T> tmp = s;
+    while (!tmp.empty()) {
+        if (tmp.top() == elem) {
+            return true;
+        }
+        tmp.pop();
+    }
+    return false;
 }

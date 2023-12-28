@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 class Data {
 private:
@@ -37,6 +38,8 @@ public:
 	std::array<unsigned, 3> countAll();
   
   unsigned flightsPerAirline(uint16_t airline_code);
+  
+  std::unordered_set<uint16_t> essentialAirports();
 
 	// returns the diameter of the graph and assigns the parameters origin ad destination to its respective values
 	int maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin, std::vector<Vertex<Airport, Airline *> *> &destination) const;

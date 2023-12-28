@@ -56,6 +56,8 @@ void Runtime::processArgs(vector<std::string> args) {
 				  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
           << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
           << "        Displays information about an airline and their number of flights.\n\n"
+          << "    essential_airports: takes 0 arguments:  essential_airports\n"
+          << "        Displays all essential airports codes to the network's circulation capability.\n\n"
 				  << "    max_trip:       takes 0 arguments:      max_trip\n"
 				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n"
 	    ;
@@ -92,6 +94,11 @@ void Runtime::processArgs(vector<std::string> args) {
       }
 
       displayAirline(al);
+      return;
+  }
+
+  if (args[0] == "essential_airports") {
+      essentialAirports();
       return;
   }
 
@@ -185,6 +192,21 @@ void Runtime::displayAirline(Airline &al) {
               << std::endl;
 }
 
+void Runtime::essentialAirports() {
+    std::unordered_set<uint16_t> res = data->essentialAirports();
+    unsigned i = 0;
+
+    std::cout << res.size() << " essential airports found: (Articulation points of the graph)" << std::endl;
+
+    for (const auto& ap : res) {
+        std::cout << "  " << Airport::codeToString(ap) << " ";
+        i++;
+        if (i % 10 == 0) std::cout << std::endl;
+    }
+
+    std::cout << std::endl << std::endl;
+}
+  
 void Runtime::maxTrip() {
 	std::vector<Vertex<Airport, Airline *> *> origins;
 	std::vector<Vertex<Airport, Airline *> *> destinations;

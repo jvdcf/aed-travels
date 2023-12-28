@@ -13,6 +13,7 @@ private:
 	void countAll();
 	void displayAirport(std::vector<std::string> v);
   void displayAirline(Airline &al);
+  void essentialAirports();
 	void maxTrip();
 
 public:
