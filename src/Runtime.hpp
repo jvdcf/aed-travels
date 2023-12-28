@@ -12,7 +12,7 @@ private:
 
 	void countAll();
 
-	void displayAirport(std::vector<std::string> args);
+	void displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigned k);
 
 	void displayAirline(Airline &al);
 
