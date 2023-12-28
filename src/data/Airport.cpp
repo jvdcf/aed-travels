@@ -44,11 +44,11 @@ float Airport::getLongitude() const {
     return longitude;
 }
 
-float Airport::disToOther(const Airport& o) const {
+float Airport::distanceTo(float pLat, float pLon) const {
     float earth_radius = 6371;
-    float lat = (o.getLatitude() - this->getLatitude()) * (M_PI / 180.0);
-    float lon = (o.getLongitude() - this->getLongitude()) * (M_PI / 180.0);
-    float haversine_step1 = sinf(lat/2) * sinf(lat/2) + cosf(this->getLatitude() * (M_PI/180.0)) * cosf(o.getLatitude() * (M_PI/180.0)) * sinf(lon/2) * sinf(lon/2);
+    float lat = (pLat - this->getLatitude()) * ((float) M_PI / 180.0);
+    float lon = (pLon - this->getLongitude()) * ((float) M_PI / 180.0);
+    float haversine_step1 = sinf(lat/2) * sinf(lat/2) + cosf(this->getLatitude() * ((float) M_PI/180.0)) * cosf(pLat * ((float) M_PI / 180.0)) * sinf(lon / 2) * sinf(lon / 2);
     float haversine_step2 = 2 * atan2f(sqrtf(haversine_step1), sqrtf(1-haversine_step1));
     float haversine_step3 = abs(earth_radius * haversine_step2);
     return haversine_step3;
