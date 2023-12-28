@@ -11,10 +11,12 @@ private:
 	void processArgs(std::vector<std::string> args);
 
 	void countAll();
-
 	void displayAirport(std::vector<std::string> v);
-
-	void bestFlight(std::vector<std::string> args);
+  void displayAirline(Airline &al);
+  void essentialAirports();
+  void greatestAirport(int k);
+  void bestFlight(std::vector<std::string> args);
+	void maxTrip();
 
 public:
 	explicit Runtime(Data *data);
