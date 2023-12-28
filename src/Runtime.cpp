@@ -9,6 +9,7 @@
 #include <set>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 Runtime::Runtime(Data *data) { this->data = data; }
 
@@ -54,12 +55,14 @@ void Runtime::processArgs(vector<std::string> args) {
 				  << "        Counts the global number of airports, airlines and flights.\n\n"
 				  << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
 				  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
-          << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
-          << "        Displays information about an airline and their number of flights.\n\n"
-          << "    essential_airports: takes 0 arguments:  essential_airports\n"
-          << "        Displays all essential airports codes to the network's circulation capability.\n\n"
-          << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
-          << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n"
+          		  << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
+          		  << "        Displays information about an airline and their number of flights.\n\n"
+				  << "    display_city:   takes 1 argument:       display_city <city_name>\n"
+				  << "        Displays information about a city.\n\n"
+          		  << "    essential_airports: takes 0 arguments:  essential_airports\n"
+          		  << "        Displays all essential airports codes to the network's circulation capability.\n\n"
+          		  << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
+          		  << "        Displays the airport or the first n airports (using flag '-n') with the most flights (including incoming and outgoing).\n\n"
 				  << "    max_trip:       takes 0 arguments:      max_trip\n"
 				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n"
 	    ;
@@ -79,52 +82,66 @@ void Runtime::processArgs(vector<std::string> args) {
 		displayAirport(local_args);
 		return;
 	}
-  
-  if (args[0] == "display_airline") {
-      if (args.size() != 2) {
-          std::cerr << "ERROR   : " << "display_airline takes exactly 1 argument." << std::endl;
-          return;
-      }
 
-      Airline al;
-      try {
-          uint16_t code = Airport::codeToHash(args[1]);
-          al = data->getAirlines().at(code);
-      } catch (exception &e) {
-          std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid airline code!" << std::endl;
-          return;
-      }
+	if (args[0] == "display_airline") {
+		if (args.size() != 2) {
+			std::cerr << "ERROR   : " << "display_airline takes exactly 1 argument." << std::endl;
+			return;
+		}
 
-      displayAirline(al);
-      return;
-  }
+		Airline al;
+		try {
+			uint16_t code = Airport::codeToHash(args[1]);
+			al = data->getAirlines().at(code);
+		} catch (exception &e) {
+			std::cerr << "ERROR   : " << "argument " << args[1] << " is not a valid airline code!" << std::endl;
+			return;
+		}
 
-  if (args[0] == "essential_airports") {
-      essentialAirports();
-      return;
-  }
-  
-  if (args[0] == "greatest_airport") {
-        if (args.size() == 2 || args.size() > 3) {
-            std::cerr << "ERROR   : " << "greatest_airport takes either 0 or 2 arguments." << std::endl;
-            return;
-        }
-        if (args.size() == 1) return greatestAirport(1);
-        if (args[1] == "-n") {
-            int k;
-            try {
-                k = std::stoi(args[2]);
-            } catch (exception &e) {
-                std::cerr << "ERROR   : " << "argument " << args[2] << " is not a valid integer!" << std::endl;
-                return;
-            }
-            greatestAirport(k);
-            return;
-        } else {
-            std::cerr << "ERROR   : " << "unknown argument " << args[1] << "." << std::endl;
-            return;
-        }
-    }
+		displayAirline(al);
+		return;
+	}
+
+	if (args[0] == "display_city") {
+		if(args.size() <= 1) {
+			std::cerr << "ERROR   : display_city takes one argument." << std::endl;
+			return;
+		}
+		for (auto itr = args.begin() + 1; itr + 1 != args.end();) { // This loop groups the city names with spaces in one single argument. Ex: {"Sao", "Paulo"} --> {"Sao Paulo"}
+			*itr += ' ';
+			*itr += *(itr + 1);
+			itr = args.erase(std::find(args.begin(), args.end(), *(itr + 1))) - 1;
+		}
+		displayCity(args[1]);
+		return;
+	}
+
+	if (args[0] == "essential_airports") {
+		essentialAirports();
+		return;
+	}
+
+	if (args[0] == "greatest_airport") {
+		if (args.size() == 2 || args.size() > 3) {
+			std::cerr << "ERROR   : " << "greatest_airport takes either 0 or 2 arguments." << std::endl;
+			return;
+		}
+		if (args.size() == 1) return greatestAirport(1);
+		if (args[1] == "-n") {
+			int k;
+			try {
+				k = std::stoi(args[2]);
+			} catch (exception &e) {
+				std::cerr << "ERROR   : " << "argument " << args[2] << " is not a valid integer!" << std::endl;
+				return;
+			}
+			greatestAirport(k);
+			return;
+		} else {
+			std::cerr << "ERROR   : " << "unknown argument " << args[1] << "." << std::endl;
+			return;
+		}
+	}
 
 	if (args[0] == "max_trip") {
 		maxTrip();
@@ -229,6 +246,36 @@ void Runtime::essentialAirports() {
     }
 
     std::cout << std::endl << std::endl;
+}
+
+void Runtime::displayCity(const std::string& city) {
+	auto airports = data->searchByCity(city);
+	if (airports.empty()) {
+		std::cerr << "ERROR   : there is no city with such name." << std::endl;
+		return;
+	}
+
+	std::set<std::string> countries;
+	unsigned n_flights = 0;
+
+	for (auto v: airports) {
+		n_flights += v->getAdj().size();
+		for (auto e: v->getAdj()) {
+			countries.insert(e.getDest()->getInfo().getCountry());
+		}
+	}
+
+	std::cout << "City   : " << city << std::endl;
+	std::cout << "Country: " << airports[0]->getInfo().getCountry() << std::endl << std::endl;
+
+	std::cout << "Statistics:" << std::endl;
+	std::cout << "  Number of reachable countries: " << countries.size() << std::endl;
+	std::cout << "  Number of flights            : " << n_flights << std::endl << std::endl;
+
+	std::cout << "Airports:" << std::endl;
+	for (auto v: airports) {
+		std::cout << "  " << v->getInfo().getCodeStr() << " - " << v->getInfo().getName() << std::endl;
+	}
 }
 
 void Runtime::greatestAirport(int k) {

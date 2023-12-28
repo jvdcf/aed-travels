@@ -34,7 +34,7 @@ public:
 
 	std::unordered_map<uint16_t, Airline> getAirlines() const;
 
-	std::vector<Vertex<Airport, Airline *> *> searchByCity(std::string city) const;
+	std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
 
 	std::array<unsigned, 3> countAll();
 
@@ -47,6 +47,8 @@ public:
 	// returns the diameter of the graph and assigns the parameters origin ad destination to its respective values
 	int maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
 				std::vector<Vertex<Airport, Airline *> *> &destination) const;
+
+
 };
 
 #endif // AED2324_PRJ2_G23_DATA_HPP

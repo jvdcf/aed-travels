@@ -48,7 +48,7 @@ std::unordered_map<uint16_t, Airline> Data::getAirlines() const {
 	return searchAirlines;
 }
 
-std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(std::string city) const {
+std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(const std::string &city) const {
 	std::vector<Vertex<Airport, Airline *> *> res;
 	for (auto v: flights.getVertexSet()) {
 		if (v->getInfo().getCity() == city) {
