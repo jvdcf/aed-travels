@@ -211,7 +211,7 @@ Vertex<Airport, Airline*>* Data::greatestAirport(unsigned int k) {
         return a->getAdj().size() + a->getIndegree() > b->getAdj().size() + b->getIndegree();
     });
 
-    return v[k];
+    return v[k - 1];
 }
 
 std::vector<Vertex<Airport, Airline *> *>

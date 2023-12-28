@@ -25,7 +25,7 @@ class Vertex {
     vector<Edge<T,U>> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
     bool processing;       // auxiliary field
-    int indegree;          // auxiliary field
+    int indegree = 0;      // auxiliary field
     int num;               // auxiliary field
     int low;               // auxiliary field
 
