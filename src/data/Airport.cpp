@@ -72,7 +72,7 @@ std::string Airport::codeToString(uint16_t code) {
     return res;
 }
 
-bool Airport::operator==(const Airport& o) {
-    return this->code == o.getCode();
+bool Airport::operator==(const Airport &o) const {
+	return this->code == o.getCode();
 }
 

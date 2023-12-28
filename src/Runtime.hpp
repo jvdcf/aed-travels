@@ -11,17 +11,16 @@ private:
 	void processArgs(std::vector<std::string> args);
 
 	void countAll();
-
 	void displayAirport(std::vector<std::string> v);
-
-	void greatestAirport(int k);
+  void displayAirline(Airline &al);
+  void essentialAirports();
+  void greatestAirport(int k);
+	void maxTrip();
 
 public:
 	explicit Runtime(Data *data);
 
 	[[noreturn]] void run();
-
-
 };
 
 #endif // AED2324_PRJ2_G23_RUNTIME_HPP
