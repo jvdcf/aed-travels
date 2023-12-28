@@ -11,7 +11,7 @@ private:
 	void processArgs(std::vector<std::string> args);
 
 	void countAll();
-	void displayAirport(std::vector<std::string> v);
+	void displayAirport(Vertex<Airport, Airline*>* v_ap, bool full, unsigned k);
   void displayAirline(Airline &al);
   void essentialAirports();
   void greatestAirport(int k);
