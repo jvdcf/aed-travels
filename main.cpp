@@ -13,7 +13,7 @@ void printError() {
     std::cerr
             << "USAGE: The program takes three files, with their specific flags "
                "prepending them. Example:\n\n"
-            << "    ___ -ap airports.csv -al airlines.csv -f "
+            << "    finsc -ap airports.csv -al airlines.csv -f "
                "flights.csv\n\n"
             << "Where '-ap' is the flag that specifies a CSV file which contains "
                "the list of airports\n"
