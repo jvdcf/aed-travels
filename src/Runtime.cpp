@@ -45,29 +45,29 @@ void Runtime::processArgs(vector<std::string> args) {
         std::exit(0);
     }
 
-	if (args[0] == "help") {
-		std::cout << "The available commands are:\n"
-				  << "    quit:           takes 0 arguments:      quit\n"
-				  << "        Quits the program.\n\n"
-				  << "    help:           takes 0 arguments:      help\n"
-				  << "        Prints this help.\n\n"
-				  << "    list_counts:    takes 0 arguments:      list_counts\n"
-				  << "        Counts the global number of airports, airlines and flights.\n\n"
-				  << "    display_airport:takes 1/2 arguments:    display_airport <airport_code> [-f | --full]\n"
-				  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
-				  << "    display_airline:takes 1 argument:       display_airline <airline_code>\n"
-				  << "        Displays information about an airline and their number of flights.\n\n"
-				  << "    essential_airports: takes 0 arguments:  essential_airports\n"
-				  << "        Displays all essential airports codes to the network's circulation capability.\n\n"
-				  << "    greatest_airport: takes 0/2 arguments:  greatest_airport (-n <index>)\n"
-				  << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n"
-				  << "    best_flight:    takes 4/5/6 arguments:  best_flight -ac|-an|-ci|-co <source> -ac|-an|-ci|-co <destination>\n"
-				  << "        Displays the best flight options for a trip.\n"
-				  << "        The arguments can be an Airport Code (-ac), an Airport Name (-an), a City (-ci) or the coordinate values (-co) as <latitude> <longitude>.\n\n"
-				  << "    max_trip:       takes 0 arguments:      max_trip\n"
-				  << "        Displays the flight trip(s) with the greatest number of stops.\n\n";
-		return;
-	}
+    if (args[0] == "help") {
+        std::cout << "The available commands are:\n"
+                  << "    quit\n"
+                  << "        Quits the program.\n\n"
+                  << "    help\n"
+                  << "        Prints this help.\n\n"
+                  << "    list_counts\n"
+                  << "        Counts the global number of airports, airlines and flights.\n\n"
+                  << "    display_airport <airport_code> [-f | --full]\n"
+                  << "        Displays information about an airport, optionally displaying all flight information.\n\n"
+                  << "    display_airline <airline_code>\n"
+                  << "        Displays information about an airline and their number of flights.\n\n"
+                  << "    essential_airports\n"
+                  << "        Displays all essential airports codes to the network's circulation capability.\n\n"
+                  << "    greatest_airport (-n <index>)\n"
+                  << "        Displays the airport with the most flights (including incoming and outgoing) or the nth, one, using flag '-n'.\n\n"
+                  << "    best_flight -ac|-an|-ci|-co <source> -ac|-an|-ci|-co <destination>\n"
+				          << "        Displays the best flight options for a trip.\n"
+				          << "        The arguments can be an Airport Code (-ac), an Airport Name (-an), a City (-ci) or the coordinate values (-co) as <latitude> <longitude>.\n\n"
+                  << "    max_trip\n"
+                  << "        Displays the flight trip(s) with the greatest number of stops.\n\n";
+        return;
+    }
 
     if (args[0] == "list_counts") {
         countAll();
