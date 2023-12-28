@@ -7,6 +7,7 @@
 #include "src/data/Data.hpp"
 
 #include <iostream>
+#include <unordered_set>
 
 void printError() {
     std::cerr

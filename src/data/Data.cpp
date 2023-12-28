@@ -289,3 +289,34 @@ std::vector<std::string> Data::bestFlight(const std::vector<Vertex<Airport, Airl
 	}
 	return res;
 }
+  
+unsigned Data::destinationsAtKStops(Vertex<Airport, Airline*>* v_ap, unsigned k) {
+    unsigned res = 0;
+    for (auto v : flights.getVertexSet()) v->setVisited(false);
+    queue<Vertex<Airport, Airline*>*> q;
+    q.push(v_ap);
+    v_ap->setVisited(true);
+    int countThisLevel = 1;
+
+    while (!q.empty() && k > 0) {
+        if (countThisLevel == 0) {
+            countThisLevel = (int) q.size();
+            k--;
+            continue;
+        }
+
+        v_ap = q.front();
+        q.pop();
+        countThisLevel--;
+        res++;
+
+        for (auto &e : v_ap->getAdj()) {
+            if (!e.getDest()->isVisited()) {
+                q.push(e.getDest());
+                e.getDest()->setVisited(true);
+            }
+        }
+
+    }
+    return --res;
+}
