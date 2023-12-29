@@ -17,8 +17,8 @@ private:
     std::unordered_map<std::string, Vertex<Airport, Airline *> *> searchAirportByName;
     std::unordered_map<uint16_t, Airline> searchAirlines;
 
-    std::vector<Vertex<Airport, Airline *> *> airportFilterSet;
-    std::vector<Airline *> airlineFilterSet;
+    std::unordered_set<Vertex<Airport, Airline *> *> airportFilterSet;
+    std::unordered_set<Airline *> airlineFilterSet;
 
 public:
     Data();
@@ -40,9 +40,9 @@ public:
 
     const std::unordered_map<uint16_t, Airline> &getAirlines() const;
 
-    const vector<Vertex<Airport, Airline *> *> &getAirportFilterSet() const;
+    const std::unordered_set<Vertex<Airport, Airline *> *> &getAirportFilterSet() const;
 
-    const vector<Airline *> &getAirlineFilterSet() const;
+    const std::unordered_set<Airline *> &getAirlineFilterSet() const;
 
 
     // Methods:

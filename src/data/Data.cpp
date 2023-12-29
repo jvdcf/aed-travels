@@ -54,11 +54,11 @@ const std::unordered_map<uint16_t, Airline> &Data::getAirlines() const {
     return searchAirlines;
 }
 
-const vector<Vertex<Airport, Airline *> *> &Data::getAirportFilterSet() const {
+const std::unordered_set<Vertex<Airport, Airline *> *> &Data::getAirportFilterSet() const {
     return airportFilterSet;
 }
 
-const vector<Airline *> &Data::getAirlineFilterSet() const {
+const std::unordered_set<Airline *> &Data::getAirlineFilterSet() const {
     return airlineFilterSet;
 }
 
@@ -70,7 +70,7 @@ bool Data::addAirportToFilter(const std::string &code) {
     if (!searchAirportByCode.contains(codeHash)) {
         return false;
     }
-    airportFilterSet.push_back(searchAirportByCode.at(codeHash));
+    airportFilterSet.insert(searchAirportByCode.at(codeHash));
     return true;
 }
 
@@ -79,7 +79,7 @@ bool Data::addAirlineToFilter(const std::string &code) {
     if (!searchAirlines.contains(codeHash)) {
         return false;
     }
-    airlineFilterSet.push_back(&searchAirlines.at(codeHash));
+    airlineFilterSet.insert(&searchAirlines.at(codeHash));
     return true;
 }
 
