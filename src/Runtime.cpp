@@ -62,7 +62,7 @@ void Runtime::processArgs(vector<std::string> args) {
                   << "    essential_airports\n"
                   << "        Displays all essential airports codes to the network's circulation capability.\n\n"
                   << "    greatest_airport (-n <index>)\n"
-                  << "        Displays the airport or the first n airports (using flag '-n') with the most flights (including incoming and outgoing).\n\n"
+                  << "        Displays the Airport or the n(th) Airport (using flag '-n') with the most flights (including incoming and outgoing).\n\n"
                   << "    best_flight -ac|-an|-ci|-co <source> -ac|-an|-ci|-co <destination>\n"
                   << "        Displays the best flight options for a trip.\n"
                   << "        The arguments can be an Airport Code (-ac), an Airport Name (-an), a City (-ci) or the coordinate values (-co) as <latitude> <longitude>.\n\n"
