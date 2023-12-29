@@ -19,7 +19,7 @@ The project was developed in C++ and uses the CMake tool to compile the source c
     - Make
     - g++
     - ...
-2. Execute the script `run.sh` _(located in the directory of the project)_ in the terminal.
+2. Execute the script `run.sh` (located in the directory of the project) in the terminal.
 
 > **Note:** The script assumes that the csv files are in the folder `dataset/` and their names were not changed.  
 > Feel free to change the script to suit your needs.
