@@ -143,7 +143,7 @@ public:
      * @details Copies the vector of vertexes and sorts it by the number of flights (incoming and outgoing). Then accesses the kth position.
      * @param k : number of greatest airports to find.
      * @return Returns the vertex with the kth greatest Airport.
-     * @note Theoretical complexity: O(V Log V).
+     * @note Theoretical complexity: O(V log(V)).
      */
     Vertex<Airport, Airline *> *greatestAirport(unsigned int k);
 
