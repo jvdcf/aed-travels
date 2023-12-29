@@ -25,10 +25,27 @@ public:
 
     // Loaders:
 
+    /**
+     * @brief Adds a new Airport to the graph.
+     * @param airport
+     * @note Theoretical complexity: O(V).
+     */
     void loadAirport(Airport &airport);
 
+    /**
+     * @brief Adds a new Airline to the graph.
+     * @param airline
+     * @note Theoretical complexity: O(1).
+     */
     void loadAirline(Airline &airline);
 
+    /**
+     * @brief Adds a new Flight to the graph.
+     * @param source_code : Hashed Source Airport Code.
+     * @param target_code : Hashed Target Airport Code.
+     * @param airline_code : Hashed Airline Code.
+     * @note Theoretical complexity: O(1).
+     */
     void loadFlight(uint16_t source_code, uint16_t target_code, uint16_t airline_code);
 
 
