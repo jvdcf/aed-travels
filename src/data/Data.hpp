@@ -71,6 +71,7 @@ public:
 
     /**
      * @brief Locates the nearest airport based on the given coordinates.
+     * @details Calculates the distance between the given coordinates and every airport in the graph. Then, it returns the airport with the smallest distance.
      * @param latitude : float.
      * @param longitude : float.
      * @return Vertex pointer that represents the nearest airport.
@@ -80,6 +81,7 @@ public:
 
     /**
      * @brief Finds the Airports of a given city.
+     * @details Performs linear search on the vector of vertexes to find the Airports that are in the given city.
      * @param city : string.
      * @return Returns a vector of vertexes that represent the airports in the given city.
      * @note Theoretical complexity: O(V).
@@ -95,6 +97,7 @@ public:
 
     /**
      * @brief Finds the number of destinations that can be reached from a given Airport with a maximum of k stops.
+     * @details Performs a BFS from the given Airport and counts the number of destinations that can be reached with a maximum of k stops.
      * @param v_ap : Source Airport.
      * @param k : unsigned int.
      * @return Returns the number of destinations that can be reached from a given Airport with a maximum of k stops.
