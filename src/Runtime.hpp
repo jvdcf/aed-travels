@@ -8,18 +8,58 @@ class Runtime {
 private:
     Data *data;
 
+    /**
+     * @brief reads the user commands and creates a process to be executed.
+     * @param args
+     */
     void processArgs(std::vector<std::string> args);
 
+    /**
+     * @brief list_counts command
+     * @details Counts the number of Airports, Airlines and Flights in Data.
+     * @note Theoretical complexity: O(V)
+     */
     void countAll();
 
+    /**
+     * @brief display_airport command
+     * @details Displays information about an airport, optionally displaying all flight information.
+     * @param v_ap: Vertex of the Airport to be displayed.
+     * @param full: If true, displays all flight information.
+     * @param k: The maximum number of stops for the count of different destinations.
+     * @note Theoretical complexity: O(V + E)
+     */
     void displayAirport(Vertex<Airport, Airline *> *v_ap, bool full, unsigned k);
 
+    /**
+     * @brief display_airline command
+     * @details Displays information about an airline and their number of flights.
+     * @param al: Airline to be displayed.
+     * @note Theoretical complexity: O(V * E)
+     */
     void displayAirline(Airline &al);
 
+    /**
+     * @brief display_city command
+     * @details Displays information about a city.
+     * @param city: City to be displayed.
+     * @note Theoretical complexity: O(V)
+     */
     void displayCity(const std::string &city);
 
+    /**
+     * @brief essential_airport command
+     * @details Displays all essential airports codes to the network's circulation capability.
+     * @note Theoretical complexity: O(V * (V + E))
+     */
     void essentialAirports();
 
+    /**
+     * @brief greatest_airport command
+     * @details Displays the k-th airport with the most incoming and outgoing flights.
+     * @param k: The k-th airport.
+     * @note Theoretical complexity: O(V log(V))
+     */
     void greatestAirport(int k);
 
     /**
@@ -46,6 +86,11 @@ private:
      */
     void displayFilters();
 
+    /**
+     * @brief max_trip command
+     * @details Displays the flight trip(s) with the greatest number of stops.
+     * @note Theoretical complexity: O(V * (V + E))
+     */
     void maxTrip();
 
 public:
