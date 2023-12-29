@@ -16,7 +16,8 @@ private:
 
     /**
      * @brief list_counts command
-     * @details Counts the number of Airports, Airlines and Flights in Data.
+     * @details Counts the number of Airports, Airlines and Flights in Data.\n
+     * See Data::countAll().
      * @note Theoretical complexity: O(V)
      */
     void countAll();
@@ -49,22 +50,24 @@ private:
 
     /**
      * @brief essential_airport command
-     * @details Displays all essential airports codes to the network's circulation capability.
+     * @details Displays all essential airports codes to the network's circulation capability.\n
+     * See Data::essentialAirports().
      * @note Theoretical complexity: O(V * (V + E))
      */
     void essentialAirports();
 
     /**
      * @brief greatest_airport command
-     * @details Displays the k-th airport with the most incoming and outgoing flights.
+     * @details Displays the k-th airport with the most incoming and outgoing flights.\n
+     * See Data::greatestAirport().
      * @param k: The k-th airport.
      * @note Theoretical complexity: O(V log(V))
      */
     void greatestAirport(int k);
 
     /**
-     * @brief Finds the flights with the least number of stops between a set of origins and a set of destinations (see the method with the same name in Data).
-     * @details Creates a vector with all the possible origins and another with all the possible destinations and performs and executes the method bestFlight() of the class Data with those arguments.\n
+     * @brief Finds the flights with the least number of stops between a set of origins and a set of destinations (see Data::bestFlight()).
+     * @details Creates a vector with all the possible origins and another with all the possible destinations and performs and executes the method Data::bestFlight() with those arguments.\n
      * If the argument is an Airport code, the vector will contain just that airport.\n
      * If the argument is a location, the vector will contain the nearest Airport.\n
      * If the argument is a City name, the vector will contain all the Airports in that City.
@@ -75,6 +78,7 @@ private:
 
     /**
      * @brief Adds the Airports and the Airlines in the arguments to the filter.
+     * @details See Data::addAirportToFilter() and Data::addAirlineToFilter().
      * @param args : vector of arguments.
      * @note Theoretical complexity: O(1).
      */
@@ -88,7 +92,8 @@ private:
 
     /**
      * @brief max_trip command
-     * @details Displays the flight trip(s) with the greatest number of stops.
+     * @details Displays the flight trip(s) with the greatest number of stops.\n
+     * See Data::maxTrip().
      * @note Theoretical complexity: O(V * (V + E))
      */
     void maxTrip();
