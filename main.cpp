@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @brief The entry point of the program.
+ * @details Makes sure that the arguments are valid and calls the parser and the runtime to start the program.
+ */
+
 #include "lib/Graph.h"
 #include "src/Parser.hpp"
 #include "src/Runtime.hpp"
