@@ -92,6 +92,12 @@ public:
 
     unsigned flightsPerAirline(uint16_t airline_code);
 
+    /**
+     * @brief Finds the Airports that, if removed, areas of the network start to be unreachable.
+     * @details Finds the articulation points of the graph.
+     * @return Returns a unordered_set of Airport Codes that are essential.
+     * @note Theoretical complexity: O(V * (V + E)).
+     */
     std::unordered_set<uint16_t> essentialAirports();
 
     /**
