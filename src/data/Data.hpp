@@ -86,8 +86,20 @@ public:
      */
     std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
 
+    /**
+     * @brief Calculates the global number of Airports, Airlines and Flights.
+     * @return Returns an array of unsigned ints with the number of Airports, Airlines and Flights, respectively.
+     * @note Theoretical complexity: O(V).
+     */
     std::array<unsigned, 3> countAll();
 
+    /**
+     * @brief Finds the number of destinations that can be reached from a given Airport with a maximum of k stops.
+     * @param v_ap : Source Airport.
+     * @param k : unsigned int.
+     * @return Returns the number of destinations that can be reached from a given Airport with a maximum of k stops.
+     * @note Theoretical complexity: O(V + E).
+     */
     unsigned int destinationsAtKStops(Vertex<Airport, Airline *> *v_ap, unsigned int k);
 
     /**
