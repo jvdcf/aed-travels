@@ -71,17 +71,18 @@ public:
 
     /**
      * @brief Locates the nearest airport based on the given coordinates.
-     * @param latitude: float.
-     * @param longitude: float.
+     * @param latitude : float.
+     * @param longitude : float.
      * @return Vertex pointer that represents the nearest airport.
      * @note Theoretical complexity: O(V)
      */
     Vertex<Airport, Airline *> *nearestAirport(float latitude, float longitude) const;
 
     /**
-     * @
-     * @param city
-     * @return
+     * @brief Finds the Airports of a given city.
+     * @param city : string.
+     * @return Returns a vector of vertexes that represent the airports in the given city.
+     * @note Theoretical complexity: O(V).
      */
     std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
 
