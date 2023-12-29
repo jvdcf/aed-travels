@@ -35,7 +35,7 @@ private:
      * @brief display_airline command
      * @details Displays information about an airline and their number of flights.
      * @param al: Airline to be displayed.
-     * @note Theoretical complexity: O(V * E)
+     * @note Theoretical complexity: O(V)
      */
     void displayAirline(Airline &al);
 
