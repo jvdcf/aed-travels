@@ -104,7 +104,7 @@ public:
      * @details For every possible origin, performs the shortest path algorithm (see method shortestPath()).
      * @param origins : vector of vertex pointers of possible origins.
      * @param destinations : vector of vertex pointers of targeted destinations.
-     * @return Returns the path as vector of Airport Codes.
+     * @return Returns the path as vector of Airport Codes. If a path doesn't exist, returns an empty vector.
      * @note Theoretical complexity: O(n * (V + E)) where n is the number of possible origins.
      */
     std::vector<std::string> bestFlight(const std::vector<Vertex<Airport, Airline *> *> &origins,
