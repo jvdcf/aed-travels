@@ -69,8 +69,20 @@ public:
      */
     void clearFilters();
 
+    /**
+     * @brief Locates the nearest airport based on the given coordinates.
+     * @param latitude: float.
+     * @param longitude: float.
+     * @return Vertex pointer that represents the nearest airport.
+     * @note Theoretical complexity: O(V)
+     */
     Vertex<Airport, Airline *> *nearestAirport(float latitude, float longitude) const;
 
+    /**
+     * @
+     * @param city
+     * @return
+     */
     std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
 
     std::array<unsigned, 3> countAll();
