@@ -263,8 +263,11 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
     }
 
     std::vector<Vertex<Airport, Airline *> *> path;
-    std::unordered_map<u_int16_t, u_int16_t> previous;
-    std::queue<Vertex<Airport, Airline *> *> q;
+	if (std::find(airportFilterSet.begin(), airportFilterSet.end(), origin) != airportFilterSet.end()) {
+		return path; // If the Airport origin is in the filters, then it is ignored, so it returns an empty path.
+	}
+	std::unordered_map<u_int16_t, u_int16_t> previous;
+	std::queue<Vertex<Airport, Airline *> *> q;
     q.push(origin);
     origin->setVisited(true);
 
@@ -288,7 +291,7 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
             return path;
         } else {
             for (auto e: v->getAdj()) {
-				if (std::find(airlineFilterSet.begin(), airlineFilterSet.end(), e.getInfo()) == airlineFilterSet.end())  {
+				if (!airlineFilterSet.empty() and std::find(airlineFilterSet.begin(), airlineFilterSet.end(), e.getInfo()) == airlineFilterSet.end()) {
 					continue; // If this flight is not from an airline in the filter, it is ignored.
 				}
                 auto w = e.getDest();
@@ -326,7 +329,10 @@ std::vector<std::string> Data::bestFlight(const std::vector<Vertex<Airport, Airl
     if (origins.size() > 1) {
         for (unsigned i = 1; i < origins.size(); ++i) {
             std::vector<Vertex<Airport, Airline *> *> buf = shortestPath(origins[i], destinations);
-            if (buf.size() < best_flight_v.size()) {
+			if (buf.empty()) {
+				continue;
+			}
+            if (buf.size() < best_flight_v.size() or best_flight_v.empty()) {
                 best_flight_v = buf;
             }
         }

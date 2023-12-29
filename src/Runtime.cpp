@@ -451,8 +451,12 @@ void Runtime::bestFlight(std::vector<std::string> args) {
     }
 
     std::vector<std::string> bf = data->bestFlight(sources, destinations);
-    std::cout << "The best flight option is:" << std::endl;
-    for (unsigned i = 1; i < bf.size(); i++) {
+	if (bf.empty()) {
+		std::cout << "Sorry! There is no flight available from " << args[2] << " to " << args[4] << std::endl;
+		return;
+	}
+	std::cout << "The best flight option is:" << std::endl;
+	for (unsigned i = 1; i < bf.size(); i++) {
         std::cout << "  " << bf[i - 1] << " --> " << bf[i] << std::endl;
     }
 }
