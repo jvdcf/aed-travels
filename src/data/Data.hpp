@@ -69,8 +69,20 @@ public:
      */
     void clearFilters();
 
+    /**
+     * @brief Locates the nearest airport based on the given coordinates.
+     * @param latitude: float.
+     * @param longitude: float.
+     * @return Vertex pointer that represents the nearest airport.
+     * @note Theoretical complexity: O(V)
+     */
     Vertex<Airport, Airline *> *nearestAirport(float latitude, float longitude) const;
 
+    /**
+     * @
+     * @param city
+     * @return
+     */
     std::vector<Vertex<Airport, Airline *> *> searchByCity(const std::string &city) const;
 
     std::array<unsigned, 3> countAll();
@@ -81,9 +93,25 @@ public:
 
     std::unordered_set<uint16_t> essentialAirports();
 
+    /**
+     * @brief Finds the nth Airport with the greatest air traffic capacity, that is, the most incoming and outgoing flights.
+     * @details Copies the vector of vertexes and sorts it by the number of flights (incoming and outgoing). Then accesses the kth position.
+     * @param k : number of greatest airports to find.
+     * @return Returns the vertex with the kth greatest Airport.
+     * @note Theoretical complexity: O(V Log V).
+     */
     Vertex<Airport, Airline *> *greatestAirport(unsigned int k);
 
     // returns the diameter of the graph and assigns the parameters origin ad destination to its respective values
+    /**
+     * @brief Finds the diameter of the graph. Adds to the vectors origin and destination the pair of vertexes that are the most distant from each other.
+     * @details Does a BFS from every vertex to find the most distant vertexes from that vertex.\n
+     * Then, it compares the results to find the diameter of the graph.
+     * @param origin : pointer to the origin vertex.
+     * @param destination : pointer to the destination vertex.
+     * @return Returns the diameter of the graph.
+     * @note Theoretical complexity: O(V * (V + E)).
+     */
     int maxTrip(std::vector<Vertex<Airport, Airline *> *> &origin,
                 std::vector<Vertex<Airport, Airline *> *> &destination) const;
 
