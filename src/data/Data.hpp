@@ -90,6 +90,12 @@ public:
 
     unsigned int destinationsAtKStops(Vertex<Airport, Airline *> *v_ap, unsigned int k);
 
+    /**
+     * @brief Finds the number of flights that are operated by a given Airline.
+     * @param airline_code : Hashed Airline Code.
+     * @return Returns the number of flights operated by the given Airline.
+     * @note Theoretical complexity: O(V).
+     */
     unsigned flightsPerAirline(uint16_t airline_code);
 
     /**
