@@ -17,13 +17,13 @@ private:
     std::unordered_map<std::string, Vertex<Airport, Airline *> *> searchAirportByName;
     std::unordered_map<uint16_t, Airline> searchAirlines;
 
-	std::vector<Vertex<Airport, Airline *> *> airportFilterSet;
-	std::vector<Airline *> airlineFilterSet;
+    std::vector<Vertex<Airport, Airline *> *> airportFilterSet;
+    std::vector<Airline *> airlineFilterSet;
 
 public:
     Data();
 
-	// Loaders:
+    // Loaders:
 
     void loadAirport(Airport &airport);
 
@@ -32,39 +32,39 @@ public:
     void loadFlight(uint16_t source_code, uint16_t target_code, uint16_t airline_code);
 
 
-	// Getters:
+    // Getters:
 
     const std::unordered_map<uint16_t, Vertex<Airport, Airline *> *> &getAirportsByCode() const;
 
     const std::unordered_map<std::string, Vertex<Airport, Airline *> *> &getAirportsByName() const;
 
-	const std::unordered_map<uint16_t, Airline> &getAirlines() const;
+    const std::unordered_map<uint16_t, Airline> &getAirlines() const;
 
-	const vector<Vertex<Airport, Airline *> *> &getAirportFilterSet() const;
+    const vector<Vertex<Airport, Airline *> *> &getAirportFilterSet() const;
 
-	const vector<Airline *> &getAirlineFilterSet() const;
+    const vector<Airline *> &getAirlineFilterSet() const;
 
 
-	// Methods:
+    // Methods:
 
-	/**
-	 * Attempts to add a airport to the filter set. If successful returns true and false otherwise.
-	 * @param code
-	 * @return true if the code is valid and false if it isn't.
-	 */
-	bool addAirportToFilter(const std::string& code);
+    /**
+     * Attempts to add a airport to the filter set. If successful returns true and false otherwise.
+     * @param code
+     * @return true if the code is valid and false if it isn't.
+     */
+    bool addAirportToFilter(const std::string &code);
 
-	/**
-	 * Attempts to add an airline to the filter set. If successful returns true and false otherwise.
-	 * @param code
-	 * @return true if the code is valid and false if it isn't.
-	 */
-	bool addAirlineToFilter(const std::string &code);
+    /**
+     * Attempts to add an airline to the filter set. If successful returns true and false otherwise.
+     * @param code
+     * @return true if the code is valid and false if it isn't.
+     */
+    bool addAirlineToFilter(const std::string &code);
 
-	/**
-	 * Clears all the filters that were added.
-	 */
-	void clearFilters();
+    /**
+     * Clears all the filters that were added.
+     */
+    void clearFilters();
 
     Vertex<Airport, Airline *> *nearestAirport(float latitude, float longitude) const;
 

@@ -24,9 +24,9 @@ private:
 
     void bestFlight(std::vector<std::string> args);
 
-	void addFilters(std::vector<std::string> args);
+    void addFilters(std::vector<std::string> args);
 
-	void displayFilters();
+    void displayFilters();
 
     void maxTrip();
 

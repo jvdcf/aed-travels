@@ -55,37 +55,37 @@ const std::unordered_map<uint16_t, Airline> &Data::getAirlines() const {
 }
 
 const vector<Vertex<Airport, Airline *> *> &Data::getAirportFilterSet() const {
-	return airportFilterSet;
+    return airportFilterSet;
 }
 
 const vector<Airline *> &Data::getAirlineFilterSet() const {
-	return airlineFilterSet;
+    return airlineFilterSet;
 }
 
 
 // Methods -------------------------------------------------------------------------------------------------------------
 
-bool Data::addAirportToFilter(const std::string& code) {
-	uint16_t codeHash = Airport::codeToHash(code);
-	if (!searchAirportByCode.contains(codeHash)) {
-		return false;
-	}
-	airportFilterSet.push_back(searchAirportByCode.at(codeHash));
-	return true;
+bool Data::addAirportToFilter(const std::string &code) {
+    uint16_t codeHash = Airport::codeToHash(code);
+    if (!searchAirportByCode.contains(codeHash)) {
+        return false;
+    }
+    airportFilterSet.push_back(searchAirportByCode.at(codeHash));
+    return true;
 }
 
 bool Data::addAirlineToFilter(const std::string &code) {
-	uint16_t codeHash = Airline::codeToHash(code);
-	if (!searchAirlines.contains(codeHash)) {
-		return false;
-	}
-	airlineFilterSet.push_back(&searchAirlines.at(codeHash));
-	return true;
+    uint16_t codeHash = Airline::codeToHash(code);
+    if (!searchAirlines.contains(codeHash)) {
+        return false;
+    }
+    airlineFilterSet.push_back(&searchAirlines.at(codeHash));
+    return true;
 }
 
 void Data::clearFilters() {
-	airportFilterSet.clear();
-	airlineFilterSet.clear();
+    airportFilterSet.clear();
+    airlineFilterSet.clear();
 }
 
 std::vector<Vertex<Airport, Airline *> *> Data::searchByCity(const std::string &city) const {
@@ -221,7 +221,7 @@ void dfs_art(Graph<Airport, Airline *> *g, Vertex<Airport, Airline *> *v, std::s
                 l.insert(v->getInfo().getCode());
             }
 
-        } else if (stackContains(s,w->getInfo().getCode())) {         // Back edge
+        } else if (stackContains(s, w->getInfo().getCode())) {         // Back edge
             v->setLow(min(w->getNum(), v->getLow()));
         }
     }
@@ -263,11 +263,11 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
     }
 
     std::vector<Vertex<Airport, Airline *> *> path;
-	if (std::find(airportFilterSet.begin(), airportFilterSet.end(), origin) != airportFilterSet.end()) {
-		return path; // If the Airport origin is in the filters, then it is ignored, so it returns an empty path.
-	}
-	std::unordered_map<u_int16_t, u_int16_t> previous;
-	std::queue<Vertex<Airport, Airline *> *> q;
+    if (std::find(airportFilterSet.begin(), airportFilterSet.end(), origin) != airportFilterSet.end()) {
+        return path; // If the Airport origin is in the filters, then it is ignored, so it returns an empty path.
+    }
+    std::unordered_map<u_int16_t, u_int16_t> previous;
+    std::queue<Vertex<Airport, Airline *> *> q;
     q.push(origin);
     origin->setVisited(true);
 
@@ -291,15 +291,17 @@ Data::shortestPath(Vertex<Airport, Airline *> *origin, std::vector<Vertex<Airpor
             return path;
         } else {
             for (auto e: v->getAdj()) {
-				if (!airlineFilterSet.empty() and std::find(airlineFilterSet.begin(), airlineFilterSet.end(), e.getInfo()) == airlineFilterSet.end()) {
-					continue; // If this flight is not from an airline in the filter, it is ignored.
-				}
+                if (!airlineFilterSet.empty() and
+                    std::find(airlineFilterSet.begin(), airlineFilterSet.end(), e.getInfo()) ==
+                    airlineFilterSet.end()) {
+                    continue; // If this flight is not from an airline in the filter, it is ignored.
+                }
                 auto w = e.getDest();
                 if (!w->isVisited()) {
                     w->setVisited(true);
-					if (std::find(airportFilterSet.begin(), airportFilterSet.end(), w) != airportFilterSet.end()) {
-						continue; // If this airport is in the filter, it is ignored.
-					}
+                    if (std::find(airportFilterSet.begin(), airportFilterSet.end(), w) != airportFilterSet.end()) {
+                        continue; // If this airport is in the filter, it is ignored.
+                    }
                     q.push(w);
                     previous[w->getInfo().getCode()] = v->getInfo().getCode();
                 }
@@ -329,9 +331,9 @@ std::vector<std::string> Data::bestFlight(const std::vector<Vertex<Airport, Airl
     if (origins.size() > 1) {
         for (unsigned i = 1; i < origins.size(); ++i) {
             std::vector<Vertex<Airport, Airline *> *> buf = shortestPath(origins[i], destinations);
-			if (buf.empty()) {
-				continue;
-			}
+            if (buf.empty()) {
+                continue;
+            }
             if (buf.size() < best_flight_v.size() or best_flight_v.empty()) {
                 best_flight_v = buf;
             }
