@@ -109,6 +109,16 @@ std::array<unsigned, 3> Data::countAll() {
     return {airportsCount, airlinesCount, flightsCount};
 }
 
+/**
+ * @brief Gets the depth of the last level of a BFS and pushes the vertexes of that level to the vector destinations.
+ * @tparam T
+ * @tparam U
+ * @param g : Graph.
+ * @param source : Source vertex.
+ * @param destinations : Vector of destinations.
+ * @return Returns the depth of the last level of the BFS.
+ * @note Theoretical complexity: O(V + E).
+ */
 template<typename T, typename U>
 int bottomOfBFS(const Graph<T, U> &g, Vertex<T, U> *source, vector<Vertex<T, U> *> &destinations) {
     int depth = 0;
@@ -178,27 +188,65 @@ unsigned Data::flightsPerAirline(uint16_t code) {
     return count;
 }
 
+/**
+ * @brief Gets the undirected graph from a directed graph.
+ * @details For each edge in the directed graph, adds an edge in the opposite direction to the undirected graph.
+ * @tparam T
+ * @tparam U
+ * @param graph : Directed graph.
+ * @return Returns the undirected graph.
+ * @note Theoretical complexity: O(V + E).
+ */
+template<typename T, typename U>
+Graph<T, U> getUndirectedGraph(Graph<T, U> graph);
+
+/**
+ * @brief Depth-first search algorithm to find the articulation points of a graph. Adds the articulation points to the unordered set l.
+ * @details Uses Tarjan's algorithm to find the articulation points of a graph.
+ * @tparam T
+ * @tparam U
+ * @param g : Graph.
+ * @param v : Vertex to start the search.
+ * @param s : Stack of vertexes.
+ * @param l : Set of articulation points.
+ * @param i : Index of the vertex.
+ * @note Theoretical complexity: O(V + E).
+ */
 void dfs_art(Graph<Airport, Airline *> *g, Vertex<Airport, Airline *> *v, std::stack<uint16_t> &s,
              std::unordered_set<uint16_t> &l, int &i);
 
 std::unordered_set<uint16_t> Data::essentialAirports() {
-    for (auto v: flights.getVertexSet()) {
+    Graph<Airport, Airline*> flights_undirected = getUndirectedGraph(flights);
+    for (auto v: flights_undirected.getVertexSet()) {
         v->setVisited(false);
     }
     std::unordered_set<uint16_t> res;
     int index = 0;
 
+    stack<uint16_t> s;
+    dfs_art(&flights_undirected, flights_undirected.getVertexSet()[0], s, res, index);
 
-    for (auto v: flights.getVertexSet()) {
-        if (!v->isVisited()) {
-            stack<uint16_t> s;
-            dfs_art(&flights, v, s, res, index);
-        }
-    }
     return res;
-
 }
 
+template<typename T, typename U>
+Graph<T, U> getUndirectedGraph(Graph<T, U> graph){
+    for (Vertex<T, U> * v: graph.getVertexSet()) {
+        for(Edge<T, U> e: v->getAdj()){
+            graph.addEdge(e.getDest(), v, 0, e.getInfo());
+        }
+    }
+    return graph;
+}
+
+/**
+ * @brief Checks if a stack contains an element.
+ * @tparam T
+ * @param s : Stack.
+ * @param elem : Element.
+ * @return Returns true if the stack contains the element, false otherwise.
+ * @note Theoretical complexity: O(n) where n is the size of the stack.
+ */
 template<typename T>
 bool stackContains(std::stack<T> s, T elem);
 
