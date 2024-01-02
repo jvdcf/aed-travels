@@ -134,7 +134,7 @@ public:
      * @brief Finds the Airports that, if removed, areas of the network start to be unreachable.
      * @details Finds the articulation points of the graph using Tarjan's algorithm.
      * @return Returns a unordered_set of Airport Codes that are essential.
-     * @note Theoretical complexity: O(V + E).
+     * @note Theoretical complexity: O(V * E).
      */
     std::unordered_set<uint16_t> essentialAirports();
 

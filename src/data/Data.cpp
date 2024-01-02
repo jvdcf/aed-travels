@@ -195,10 +195,10 @@ unsigned Data::flightsPerAirline(uint16_t code) {
  * @tparam U
  * @param graph : Directed graph.
  * @return Returns the undirected graph.
- * @note Theoretical complexity: O(V + E).
+ * @note Theoretical complexity: O(V * E).
  */
 template<typename T, typename U>
-Graph<T, U> getUndirectedGraph(Graph<T, U> graph);
+Graph<T, U> getUndirectedGraph(const Graph<T, U>& old);
 
 /**
  * @brief Depth-first search algorithm to find the articulation points of a graph. Adds the articulation points to the unordered set l.
@@ -230,13 +230,23 @@ std::unordered_set<uint16_t> Data::essentialAirports() {
 }
 
 template<typename T, typename U>
-Graph<T, U> getUndirectedGraph(Graph<T, U> graph){
-    for (Vertex<T, U> * v: graph.getVertexSet()) {
-        for(Edge<T, U> e: v->getAdj()){
-            graph.addEdge(e.getDest(), v, 0, e.getInfo());
+Graph<T, U> getUndirectedGraph(const Graph<T, U>& old) {
+    Graph<T, U> copy = Graph<T, U>();
+
+    for (Vertex<T, U> * v: old.getVertexSet()) {
+        copy.addVertex(v->getInfo());
+    }
+
+    for (Vertex<T, U> * v: old.getVertexSet()) {
+        for(Edge<T, U> e: v->getAdj()) {
+            Vertex<T, U> * origin = copy.findVertex(v->getInfo());
+            Vertex<T, U> * dest = copy.findVertex(e.getDest()->getInfo());
+            copy.addEdge(origin, dest, e.getWeight(), e.getInfo());
+            copy.addEdge(dest, origin, e.getWeight(), e.getInfo());
         }
     }
-    return graph;
+
+    return copy;
 }
 
 /**
